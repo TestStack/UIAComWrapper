@@ -8,9 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17C3887E-157E-4EAA-ACDE-347B83105BCC}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
-		UIAComWrapper.vsmdi = UIAComWrapper.vsmdi
-		UIAComWrapper1.vsmdi = UIAComWrapper1.vsmdi
-		UIAComWrapper2.vsmdi = UIAComWrapper2.vsmdi
 		UIAComWrapper3.vsmdi = UIAComWrapper3.vsmdi
 	EndProjectSection
 EndProject
