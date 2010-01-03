@@ -8,7 +8,7 @@ using UIAComWrapperInternal;
 
 namespace System.Windows.Automation
 {
-    class Automation
+    public static class Automation
     {
         
         private static readonly UIAutomationClient.IUIAutomation factory = new UIAutomationClient.CUIAutomationClass();
@@ -19,10 +19,6 @@ namespace System.Windows.Automation
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static Automation()
-        {
-        }
-
-        Automation()
         {
         }
 
