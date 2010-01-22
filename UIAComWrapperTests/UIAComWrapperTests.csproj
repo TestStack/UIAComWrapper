@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5BD04451-8FAC-475A-BD33-6FE2DD59FEE3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -54,9 +54,11 @@
     <Compile Include="CacheRequestTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ClientSideProvidersTest.cs" />
     <Compile Include="ConditionTest.cs" />
     <Compile Include="EventTests.cs" />
     <Compile Include="ExplorerHost.cs" />
+    <Compile Include="ExplorerTargetTests.cs" />
     <Compile Include="Internal_ObjectConverterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenarioTests.cs" />

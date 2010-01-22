@@ -110,127 +110,6 @@ namespace UIAComWrapperTests
         }
 
         [TestMethod()]
-        public void GridPatternTest()
-        {
-            using (ExplorerHost host = new ExplorerHost())
-            {
-                AutomationElement itemsView = host.Element.FindFirst(TreeScope.Subtree,
-                    new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
-                Assert.IsNotNull(itemsView);
-
-                // Try out the Grid Pattern
-                GridPattern grid = (GridPattern)itemsView.GetCurrentPattern(GridPattern.Pattern);
-                Assert.IsTrue(grid.Current.ColumnCount > 0);
-                Assert.IsTrue(grid.Current.RowCount > 0);
-
-                // GridItem
-                AutomationElement gridItemElement = grid.GetItem(0, 0);
-                Assert.IsNotNull(gridItemElement);
-                GridItemPattern gridItem = (GridItemPattern)gridItemElement.GetCurrentPattern(GridItemPattern.Pattern);
-                Assert.AreEqual(gridItem.Current.Row, 0);
-                Assert.AreEqual(gridItem.Current.Column, 0);
-                Assert.AreEqual(gridItem.Current.ContainingGrid, itemsView);
-            }
-        }
-
-        public void GridPatternCachedTest()
-        {
-            using (ExplorerHost host = new ExplorerHost())
-            {
-                CacheRequest req = new CacheRequest();
-                req.Add(GridItemPattern.Pattern);
-                req.Add(GridPattern.Pattern);
-                req.Add(GridPattern.RowCountProperty);
-                req.Add(GridPattern.ColumnCountProperty);
-                req.Add(GridItemPattern.RowProperty);
-                req.Add(GridItemPattern.ColumnProperty);
-                req.Add(GridItemPattern.ContainingGridProperty);
-
-                using (req.Activate())
-                {
-                    AutomationElement itemsView = host.Element.FindFirst(TreeScope.Subtree,
-                        new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
-                    Assert.IsNotNull(itemsView);
-
-                    // Try out the Grid Pattern
-                    GridPattern grid = (GridPattern)itemsView.GetCachedPattern(GridPattern.Pattern);
-                    Assert.IsTrue(grid.Cached.ColumnCount > 0);
-                    Assert.IsTrue(grid.Cached.RowCount > 0);
-
-                    // GridItem
-                    AutomationElement gridItemElement = grid.GetItem(0, 0);
-                    Assert.IsNotNull(gridItemElement);
-                    GridItemPattern gridItem = (GridItemPattern)gridItemElement.GetCachedPattern(GridItemPattern.Pattern);
-                    Assert.AreEqual(gridItem.Cached.Row, 0);
-                    Assert.AreEqual(gridItem.Cached.Column, 0);
-                    Assert.AreEqual(gridItem.Cached.ContainingGrid, itemsView);
-                }
-            }
-        }
-
-        [TestMethod()]
-        public void MultipleViewPatternTest()
-        {
-            using (ExplorerHost host = new ExplorerHost())
-            {
-                CacheRequest req = new CacheRequest();
-                req.Add(MultipleViewPattern.Pattern);
-                req.Add(MultipleViewPattern.CurrentViewProperty);
-                req.Add(MultipleViewPattern.SupportedViewsProperty);
-
-                using (req.Activate())
-                {
-                    AutomationElement itemsView = host.Element.FindFirst(TreeScope.Subtree,
-                        new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
-                    Assert.IsNotNull(itemsView);
-
-                    MultipleViewPattern multiView = (MultipleViewPattern)itemsView.GetCachedPattern(MultipleViewPattern.Pattern);
-                    int[] supportedViews = multiView.Cached.GetSupportedViews();
-                    Assert.IsNotNull(supportedViews.Length > 0);
-                    bool inSupportedViews = false;
-                    foreach (int view in supportedViews)
-                    {
-                        if (view == multiView.Cached.CurrentView)
-                        {
-                            inSupportedViews = true;
-                            break;
-                        }
-                        string viewName = multiView.GetViewName(view);
-                        Assert.IsTrue(viewName.Length > 0);
-                    }
-                    Assert.IsTrue(inSupportedViews);
-                }
-            }
-        }
-
-        [TestMethod()]
-        public void MultipleViewPatternCachedTest()
-        {
-            using (ExplorerHost host = new ExplorerHost())
-            {
-                AutomationElement itemsView = host.Element.FindFirst(TreeScope.Subtree,
-                    new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
-                Assert.IsNotNull(itemsView);
-
-                MultipleViewPattern multiView = (MultipleViewPattern)itemsView.GetCurrentPattern(MultipleViewPattern.Pattern);
-                int[] supportedViews = multiView.Current.GetSupportedViews();
-                Assert.IsNotNull(supportedViews.Length > 0);
-                bool inSupportedViews = false;
-                foreach (int view in supportedViews)
-                {
-                    if (view == multiView.Current.CurrentView)
-                    {
-                        inSupportedViews = true;
-                        break;
-                    }
-                    string viewName = multiView.GetViewName(view);
-                    Assert.IsTrue(viewName.Length > 0);
-                }
-                Assert.IsTrue(inSupportedViews);
-            }
-        }
-
-        [TestMethod()]
         public void NoClickablePointTest()
         {
             // Launch a notepad and position it
@@ -326,76 +205,6 @@ namespace UIAComWrapperTests
                     Assert.IsTrue(originalValue >= range.Cached.Minimum);
                     Assert.IsTrue(originalValue <= range.Cached.Maximum);
                     Assert.IsFalse(range.Cached.IsReadOnly);
-                }
-            }
-        }
-
-        [TestMethod()]
-        public void TablePatternTest()
-        {
-            using (ExplorerHost host = new ExplorerHost())
-            {
-                AutomationElement itemsView = host.Element.FindFirst(TreeScope.Subtree,
-                    new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
-                Assert.IsNotNull(itemsView);
-
-                // TablePattern test
-                TablePattern table = (TablePattern)itemsView.GetCurrentPattern(TablePattern.Pattern);
-                Assert.IsTrue(table.Current.ColumnCount > 0);
-                Assert.IsTrue(table.Current.RowCount > 0);
-                Assert.IsTrue(table.Current.GetRowHeaders().Length == 0);
-                Assert.IsTrue(table.Current.GetColumnHeaders().Length > 0);
-
-                AutomationElement tableItemElement = table.GetItem(0, 0);
-                TableItemPattern tableItem = (TableItemPattern)tableItemElement.GetCurrentPattern(TableItemPattern.Pattern);
-                Assert.AreEqual(tableItem.Current.Row, 0);
-                Assert.AreEqual(tableItem.Current.Column, 0);
-                Assert.AreEqual(tableItem.Current.ContainingGrid, itemsView);
-                Assert.IsTrue(tableItem.Current.GetColumnHeaderItems().Length == 1);
-                Assert.IsTrue(tableItem.Current.GetRowHeaderItems().Length == 0);
-            }
-        }
-
-        [TestMethod()]
-        public void TablePatternCachedTest()
-        {
-            using (ExplorerHost host = new ExplorerHost())
-            {
-                CacheRequest req = new CacheRequest();
-                req.Add(TablePattern.Pattern);
-                req.Add(TableItemPattern.Pattern);
-                req.Add(GridPattern.Pattern); 
-                req.Add(GridItemPattern.Pattern);
-                req.Add(GridPattern.RowCountProperty);
-                req.Add(GridPattern.ColumnCountProperty);
-                req.Add(GridItemPattern.RowProperty);
-                req.Add(GridItemPattern.ColumnProperty);
-                req.Add(GridItemPattern.ContainingGridProperty);
-                req.Add(TablePattern.RowHeadersProperty);
-                req.Add(TablePattern.ColumnHeadersProperty);
-                req.Add(TableItemPattern.RowHeaderItemsProperty);
-                req.Add(TableItemPattern.ColumnHeaderItemsProperty);
-                using (req.Activate())
-                {
-                    AutomationElement itemsView = host.Element.FindFirst(TreeScope.Subtree,
-                        new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
-                    Assert.IsNotNull(itemsView);
-
-                    // TablePattern test
-                    TablePattern table = (TablePattern)itemsView.GetCachedPattern(TablePattern.Pattern);
-                    Assert.IsTrue(table.Cached.ColumnCount > 0);
-                    Assert.IsTrue(table.Cached.RowCount > 0);
-                    Assert.IsTrue(table.Cached.GetRowHeaders().Length == 0);
-                    Assert.IsTrue(table.Cached.GetColumnHeaders().Length > 0);
-
-                    // You can't actually cache a TableItemPattern - strange.
-                    //AutomationElement tableItemElement = table.GetItem(0, 0);
-                    //TableItemPattern tableItem = (TableItemPattern)tableItemElement.GetCachedPattern(TableItemPattern.Pattern);
-                    //Assert.AreEqual(tableItem.Cached.Row, 0);
-                    //Assert.AreEqual(tableItem.Cached.Column, 0);
-                    //Assert.AreEqual(tableItem.Cached.ContainingGrid, itemsView);
-                    //Assert.IsTrue(tableItem.Cached.GetColumnHeaderItems().Length == 1);
-                    //Assert.IsTrue(tableItem.Cached.GetRowHeaderItems().Length == 0);
                 }
             }
         }
@@ -506,7 +315,8 @@ namespace UIAComWrapperTests
         [TestMethod()]
         public void TransformPatternTest()
         {
-            using (ExplorerHost host = new ExplorerHost())
+            // Launch a notepad and position it
+            using (AppHost host = new AppHost("notepad.exe", ""))
             {
                 TransformPattern transformPattern = (TransformPattern)host.Element.GetCurrentPattern(TransformPattern.Pattern);
                 // Coded to expectations for an explorer window
@@ -525,7 +335,7 @@ namespace UIAComWrapperTests
         [TestMethod()]
         public void TransformPatternCachedTest()
         {
-            using (ExplorerHost host = new ExplorerHost())
+            using (AppHost host = new AppHost("notepad.exe", ""))
             {
                 CacheRequest req = new CacheRequest();
                 req.Add(TransformPattern.Pattern);
@@ -596,7 +406,7 @@ namespace UIAComWrapperTests
         [TestMethod()]
         public void WindowPatternTest()
         {
-            using (ExplorerHost host = new ExplorerHost())
+            using (AppHost host = new AppHost("notepad.exe", ""))
             {
                 // Window Pattern
                 WindowPattern windowPattern = (WindowPattern)host.Element.GetCurrentPattern(WindowPattern.Pattern);
@@ -611,7 +421,7 @@ namespace UIAComWrapperTests
         [TestMethod()]
         public void WindowPatternCachedTest()
         {
-            using (ExplorerHost host = new ExplorerHost())
+            using (AppHost host = new AppHost("notepad.exe", ""))
             {
                 CacheRequest req = new CacheRequest();
                 req.Add(WindowPattern.Pattern);

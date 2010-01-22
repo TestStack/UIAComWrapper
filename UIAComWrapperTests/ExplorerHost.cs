@@ -12,6 +12,7 @@ namespace UIAComWrapperTests
     {
         private AutomationElement _element;
         private WindowPattern _windowPattern;
+        private int _hwnd;
 
         public ExplorerHost()
         {
@@ -29,6 +30,8 @@ namespace UIAComWrapperTests
                 throw new InvalidOperationException();
             }
 
+            _hwnd = _element.Current.NativeWindowHandle;
+
             _windowPattern = (WindowPattern)_element.GetCurrentPattern(WindowPattern.Pattern);
         }
 
@@ -45,7 +48,12 @@ namespace UIAComWrapperTests
         {
             get
             {
-                return this._element;
+                AutomationElement element = AutomationElement.FromHandle((IntPtr)this._hwnd);
+                if (element == null)
+                {
+                    throw new InvalidOperationException();
+                }
+                return element;
             }
         }
 
@@ -58,6 +66,8 @@ namespace UIAComWrapperTests
                 _windowPattern.Close();
                 _windowPattern = null;
             }
+            _element = null;
+            _hwnd = 0;
         }
 
         #endregion

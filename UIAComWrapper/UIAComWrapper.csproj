@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{1DD63894-DBB9-40EF-BFF2-55624CB285AF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -36,6 +36,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -49,6 +51,7 @@
     <Compile Include="BasePattern.cs" />
     <Compile Include="CacheRequest.cs" />
     <Compile Include="ClientEventList.cs" />
+    <Compile Include="ClientSideProviders.cs" />
     <Compile Include="Conditions.cs" />
     <Compile Include="DockPattern.cs" />
     <Compile Include="Events.cs" />
@@ -57,6 +60,8 @@
     <Compile Include="InternalSchema.cs" />
     <Compile Include="InternalTypes.cs" />
     <Compile Include="InvokePattern.cs" />
+    <Compile Include="AutomationInteropProvider.cs" />
+    <Compile Include="UiaCoreProviderApi.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="MultipleViewPattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -139,20 +139,28 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void TestFocusChange()
         {
-            AutomationElement.RootElement.SetFocus();
+            // Launch a notepad and set focus to it
+            using (AppHost host1 = new AppHost("notepad.exe", ""))
+            {
+                host1.Element.SetFocus();
 
-            FocusChangeHandler handler = new FocusChangeHandler();
-            Automation.AddAutomationFocusChangedEventHandler(
-                new AutomationFocusChangedEventHandler(handler.HandleEvent));
-            handler.Start();
-            AutomationElement startButton = AutomationElementTest.GetStartButton();
-            InvokePattern invoke = (InvokePattern)startButton.GetCurrentPattern(InvokePattern.Pattern);
-            invoke.Invoke();
-            System.Windows.Forms.SendKeys.SendWait("{ESC}");
-            Assert.IsTrue(handler.Confirm());
-            Assert.IsNotNull(handler.EventSource);
-            Automation.RemoveAutomationFocusChangedEventHandler(
-                new AutomationFocusChangedEventHandler(handler.HandleEvent));
+                FocusChangeHandler handler = new FocusChangeHandler();
+                Automation.AddAutomationFocusChangedEventHandler(
+                    new AutomationFocusChangedEventHandler(handler.HandleEvent));
+                handler.Start();
+
+                // Launch a new notepad and set focus to it
+                using (AppHost host2 = new AppHost("notepad.exe", ""))
+                {
+                    host2.Element.SetFocus();
+
+                    Assert.IsTrue(handler.Confirm());
+                    Assert.IsNotNull(handler.EventSource);
+                }
+
+                Automation.RemoveAutomationFocusChangedEventHandler(
+                    new AutomationFocusChangedEventHandler(handler.HandleEvent));
+            }
         }
 
         [TestMethod]
@@ -191,7 +199,8 @@ namespace UIAComWrapperTests
                     new AutomationPropertyChangedEventHandler(handler.HandleEvent),
                     AutomationElement.BoundingRectangleProperty);
                 handler.Start();
-                transformPattern.Move(10, 10);
+                System.Threading.Thread.Sleep(100 /* ms */);
+                transformPattern.Move(200, 200);
                 Assert.IsTrue(handler.Confirm());
                 Assert.IsNotNull(handler.EventSource);
                 Assert.AreEqual(host.Element, handler.EventSource);

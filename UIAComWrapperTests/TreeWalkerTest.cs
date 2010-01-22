@@ -76,22 +76,8 @@ namespace UIAComWrapperTests
             Assert.IsInstanceOfType(notCond2.Condition, typeof(OrCondition));
         }
 
-        [TestMethod]
-        public void TreeIterationTest()
-        {
-            using (ExplorerHost host = new ExplorerHost())
-            {
-                TreeWalker walker = new TreeWalker(Automation.ControlViewCondition);
-                AutomationElement iter = host.Element;
-                iter = walker.GetFirstChild(iter);
-                iter = walker.GetNextSibling(iter);
-                iter = walker.GetParent(iter);
-                Assert.AreEqual(host.Element, iter);
-                iter = walker.GetLastChild(iter);
-                iter = walker.GetPreviousSibling(iter);
-                iter = walker.GetParent(iter);
-                Assert.AreEqual(host.Element, iter);
-            }
-        }
+        //
+        // TreeIterationTest moved to ExplorerTargetTests.
+        //
     }
 }

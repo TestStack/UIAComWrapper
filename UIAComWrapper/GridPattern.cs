@@ -36,7 +36,9 @@ namespace System.Windows.Automation
         {
             try
             {
-                return AutomationElement.Wrap(this._pattern.GetItem(row, column));
+                // Looks like we have to cache explicitly here, since GetItem doesn't
+                // take a cache request.
+                return AutomationElement.Wrap(this._pattern.GetItem(row, column)).GetUpdatedCache(CacheRequest.Current);
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
