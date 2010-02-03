@@ -73,6 +73,25 @@ namespace System.Windows.Automation
         public static readonly AutomationEvent StructureChangedEvent = AutomationEvent.Register(AutomationIdentifierGuids.StructureChanged_Event, "AutomationElementIdentifiers.StructureChangedEvent");
         public static readonly AutomationEvent ToolTipClosedEvent = AutomationEvent.Register(AutomationIdentifierGuids.ToolTipClosed_Event, "AutomationElementIdentifiers.ToolTipClosedEvent");
         public static readonly AutomationEvent ToolTipOpenedEvent = AutomationEvent.Register(AutomationIdentifierGuids.ToolTipOpened_Event, "AutomationElementIdentifiers.ToolTipOpenedEvent");
+
+        // New for Windows 7
+        //
+
+        public static readonly AutomationProperty IsLegacyIAccessiblePatternAvailableProperty = AutomationProperty.Register(AutomationIdentifierGuids.IsLegacyIAccessiblePatternAvailable_Property, "AutomationElementIdentifiers.IsLegacyIAccessiblePatternAvailableProperty");
+        public static readonly AutomationProperty IsItemContainerPatternAvailableProperty = AutomationProperty.Register(AutomationIdentifierGuids.IsItemContainerPatternAvailable_Property, "AutomationElementIdentifiers.IsItemContainerPatternAvailableProperty");
+        public static readonly AutomationProperty IsVirtualizedItemPatternAvailableProperty = AutomationProperty.Register(AutomationIdentifierGuids.IsVirtualizedItemPatternAvailable_Property, "AutomationElementIdentifiers.IsVirtualizedItemPatternAvailableProperty");
+        public static readonly AutomationProperty IsSynchronizedInputPatternAvailableProperty = AutomationProperty.Register(AutomationIdentifierGuids.IsSynchronizedInputPatternAvailable_Property, "AutomationElementIdentifiers.IsSynchronizedInputPatternAvailableProperty");
+
+        public static readonly AutomationProperty AriaRoleProperty = AutomationProperty.Register(AutomationIdentifierGuids.AriaRole_Property, "AutomationElementIdentifiers.AriaRoleProperty");
+        public static readonly AutomationProperty AriaPropertiesProperty = AutomationProperty.Register(AutomationIdentifierGuids.AriaProperties_Property, "AutomationElementIdentifiers.AriaPropertiesProperty");
+        public static readonly AutomationProperty IsDataValidForFormProperty = AutomationProperty.Register(AutomationIdentifierGuids.IsDataValidForForm_Property, "AutomationElementIdentifiers.IsDataValidForFormProperty");
+        public static readonly AutomationProperty ControllerForProperty = AutomationProperty.Register(AutomationIdentifierGuids.ControllerFor_Property, "AutomationElementIdentifiers.ControllerForProperty");
+        public static readonly AutomationProperty DescribedByProperty = AutomationProperty.Register(AutomationIdentifierGuids.DescribedBy_Property, "AutomationElementIdentifiers.DescribedByProperty");
+        public static readonly AutomationProperty FlowsToProperty = AutomationProperty.Register(AutomationIdentifierGuids.FlowsTo_Property, "AutomationElementIdentifiers.FlowsToProperty");
+        public static readonly AutomationProperty ProviderDescriptionProperty = AutomationProperty.Register(AutomationIdentifierGuids.ProviderDescription_Property, "AutomationElementIdentifiers.Property");
+
+        public static readonly AutomationEvent MenuModeStartEvent = AutomationEvent.Register(AutomationIdentifierGuids.MenuModeStart_Event, "AutomationElementIdentifiers.MenuModeStartEvent");
+        public static readonly AutomationEvent MenuModeEndEvent = AutomationEvent.Register(AutomationIdentifierGuids.MenuModeEnd_Event, "AutomationElementIdentifiers.MenuModeEndEvent");
     }
 
     public static class DockPatternIdentifiers
@@ -269,6 +288,43 @@ namespace System.Windows.Automation
         public static readonly AutomationEvent WindowOpenedEvent = AutomationEvent.Register(AutomationIdentifierGuids.Window_Opened_Event, "WindowPatternIdentifiers.WindowOpenedProperty");
         public static readonly AutomationProperty WindowVisualStateProperty = AutomationProperty.Register(AutomationIdentifierGuids.Window_VisualState_Property, "WindowPatternIdentifiers.WindowVisualStateProperty");
     }
+
+    // New for Windows 7
+    //
+    public static class LegacyIAccessiblePatternIdentifiers
+    {
+        public static readonly AutomationProperty ChildIdProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_ChildId_Property, "LegacyIAccessiblePatternIdentifiers.ChildIdProperty");
+        public static readonly AutomationProperty NameProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_Name_Property, "LegacyIAccessiblePatternIdentifiers.NameProperty");
+        public static readonly AutomationProperty ValueProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_Value_Property, "LegacyIAccessiblePatternIdentifiers.ValueProperty");
+        public static readonly AutomationProperty DescriptionProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_Description_Property, "LegacyIAccessiblePatternIdentifiers.DescriptionProperty");
+        public static readonly AutomationProperty RoleProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_Role_Property, "LegacyIAccessiblePatternIdentifiers.RoleProperty");
+        public static readonly AutomationProperty StateProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_State_Property, "LegacyIAccessiblePatternIdentifiers.StateProperty");
+        public static readonly AutomationProperty HelpProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_Help_Property, "LegacyIAccessiblePatternIdentifiers.HelpProperty");
+        public static readonly AutomationProperty KeyboardShortcutProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_KeyboardShortcut_Property, "LegacyIAccessiblePatternIdentifiers.KeyboardShortcutProperty");
+        public static readonly AutomationProperty SelectionProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_Selection_Property, "LegacyIAccessiblePatternIdentifiers.SelectionProperty");
+        public static readonly AutomationProperty DefaultActionProperty = AutomationProperty.Register(AutomationIdentifierGuids.LegacyIAccessible_DefaultAction_Property, "LegacyIAccessiblePatternIdentifiers.DefaultActionProperty");
+        public static readonly AutomationPattern Pattern = AutomationPattern.Register(AutomationIdentifierGuids.LegacyIAccessible_Pattern, "LegacyIAccessiblePatternIdentifiers.Pattern");
+    }
+
+    public static class ItemContainerPatternIdentifiers
+    {
+        public static readonly AutomationPattern Pattern = AutomationPattern.Register(AutomationIdentifierGuids.ItemContainer_Pattern, "ItemContainerPatternIdentifiers.Pattern");
+    }
+
+    public static class VirtualizedItemPatternIdentifiers
+    {
+        public static readonly AutomationPattern Pattern = AutomationPattern.Register(AutomationIdentifierGuids.VirtualizedItem_Pattern, "VirtualizedItemPatternIdentifiers.Pattern");
+    }
+
+    public static class SynchronizedInputPatternIdentifiers
+    {
+        public static readonly AutomationEvent InputReachedTargetEvent = AutomationEvent.Register(AutomationIdentifierGuids.SynchronizedInput_InputReachedTarget_Event, "SynchronizedInputPatternIdentifiers.InputReachedTargetEvent");
+        public static readonly AutomationEvent InputReachedOtherElementEvent = AutomationEvent.Register(AutomationIdentifierGuids.SynchronizedInput_InputReachedOtherElement_Event, "SynchronizedInputPatternIdentifiers.InputReachedOtherElementEvent");
+        public static readonly AutomationEvent InputDiscardedEvent = AutomationEvent.Register(AutomationIdentifierGuids.SynchronizedInput_InputDiscarded_Event, "SynchronizedInputPatternIdentifiers.InputDiscardedEvent");
+        public static readonly AutomationPattern Pattern = AutomationPattern.Register(AutomationIdentifierGuids.SynchronizedInput_Pattern, "SynchronizedInputPatternIdentifiers.Pattern");
+    }
+
+
 
     #endregion
 
@@ -831,6 +887,20 @@ namespace System.Windows.Automation
         Maximized,
         Minimized
     }
+
+    // New for Windows 7
+    //
+
+    [Flags]
+    public enum SynchronizedInputType
+    {
+        KeyUp =         0x01,
+        KeyDown =       0x02,
+        LeftMouseUp =   0x04,
+        LeftMouseDown = 0x08,
+        RightMouseUp =  0x10,
+        RightMouseDown =0x20
+    };
 
     #endregion
 

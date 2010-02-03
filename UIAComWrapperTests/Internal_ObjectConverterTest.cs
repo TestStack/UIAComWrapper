@@ -82,6 +82,7 @@ namespace UIAComWrapperTests
                 new ObjectTestMapping(AutomationElement.ControlTypeProperty, (int)50000, ControlType.Button), 
                 new ObjectTestMapping(AutomationElement.ClickablePointProperty, new double[] {1, 2}, new System.Windows.Point(1, 2)), 
                 new ObjectTestMapping(AutomationElement.CultureProperty, 0x0409, new System.Globalization.CultureInfo(0x0409)), 
+                new ObjectTestMapping(AutomationElement.CultureProperty, 0, System.Globalization.CultureInfo.InvariantCulture),
                 new ObjectTestMapping(AutomationElement.LabeledByProperty, null, null), 
                 new ObjectTestMapping(AutomationElement.LabeledByProperty, Automation.Factory.GetRootElement(), AutomationElement.RootElement), 
                 new ObjectTestMapping(AutomationElement.OrientationProperty, 2, OrientationType.Vertical),

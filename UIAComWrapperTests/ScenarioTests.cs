@@ -4,6 +4,7 @@
 // All other rights reserved.
 
 using System;
+using System.Runtime.InteropServices;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -444,5 +445,136 @@ namespace UIAComWrapperTests
                 }
             }
         }
+
+        [TestMethod()]
+        public void LegacyIAccessiblePatternTest()
+        {
+            using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
+            {
+                // Find a well-known combo box
+                AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
+                Assert.IsNotNull(combo);
+
+                // BLOCK
+                {
+                    LegacyIAccessiblePattern acc = (LegacyIAccessiblePattern)combo.GetCurrentPattern(LegacyIAccessiblePattern.Pattern);
+                    Assert.AreEqual(0, acc.Current.ChildId);
+                    Assert.IsTrue(acc.Current.Name.Length > 0);
+                    Assert.IsTrue(acc.Current.Value.Length > 0);
+                    Assert.AreEqual("Alt+f", acc.Current.KeyboardShortcut);
+                    Assert.AreEqual((uint)0x2E /* combo box */, acc.Current.Role);
+                    Assert.AreEqual((uint)0x100400 /* collapsed|focusable */, acc.Current.State & 0x100400);
+                }
+
+                // Get the tab controls
+                AutomationElement tabCtrl = host.Element.FindFirst(TreeScope.Subtree,
+                    new PropertyCondition(AutomationElement.AutomationIdProperty, "12320"));
+                Assert.IsNotNull(tabCtrl);
+
+                // Try out the selection
+                // BLOCK
+                {
+                    LegacyIAccessiblePattern acc = (LegacyIAccessiblePattern)tabCtrl.GetCurrentPattern(LegacyIAccessiblePattern.Pattern);
+                    AutomationElement[] selection = acc.Current.GetSelection();
+                    Assert.IsTrue(selection.Length > 0);
+                    Assert.IsInstanceOfType(selection[0], typeof(AutomationElement));
+                    Assert.AreEqual(ControlType.TabItem, selection[0].Current.ControlType);
+                }
+
+            }
+        }
+
+        [TestMethod()]
+        public void LegacyIAccessiblePatternCachedTest()
+        {
+            using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
+            {
+                CacheRequest req = new CacheRequest();
+                req.Add(LegacyIAccessiblePattern.Pattern);
+                req.Add(LegacyIAccessiblePattern.NameProperty);
+                req.Add(LegacyIAccessiblePattern.ChildIdProperty);
+                req.Add(LegacyIAccessiblePattern.KeyboardShortcutProperty);
+                req.Add(LegacyIAccessiblePattern.RoleProperty);
+                req.Add(LegacyIAccessiblePattern.ValueProperty);
+                req.Add(LegacyIAccessiblePattern.StateProperty);
+                req.Add(LegacyIAccessiblePattern.SelectionProperty);
+                using (req.Activate())
+                {
+                    // Find a well-known combo box
+                    AutomationElement combo = host.Element.FindFirst(TreeScope.Subtree,
+                        new PropertyCondition(AutomationElement.AutomationIdProperty, "1021"));
+                    Assert.IsNotNull(combo);
+
+                    // BLOCK
+                    {
+                        LegacyIAccessiblePattern acc = (LegacyIAccessiblePattern)combo.GetCachedPattern(LegacyIAccessiblePattern.Pattern);
+                        Assert.AreEqual(0, acc.Cached.ChildId);
+                        Assert.IsTrue(acc.Cached.Name.Length > 0);
+                        Assert.IsTrue(acc.Cached.Value.Length > 0);
+                        Assert.AreEqual("Alt+f", acc.Cached.KeyboardShortcut);
+                        Assert.AreEqual((uint)0x2E /* combo box */, acc.Cached.Role);
+                        Assert.AreEqual((uint)0x100400 /* collapsed|focusable */, acc.Cached.State & 0x100400);
+                    }
+
+                    // Get the tab controls
+                    AutomationElement tabCtrl = host.Element.FindFirst(TreeScope.Subtree,
+                        new PropertyCondition(AutomationElement.AutomationIdProperty, "12320"));
+                    Assert.IsNotNull(tabCtrl);
+
+                    // BLOCK
+                    {
+                        LegacyIAccessiblePattern acc = (LegacyIAccessiblePattern)tabCtrl.GetCachedPattern(LegacyIAccessiblePattern.Pattern);
+                        AutomationElement[] selection = acc.Cached.GetSelection();
+                        Assert.IsTrue(selection.Length > 0);
+                        Assert.IsInstanceOfType(selection[0], typeof(AutomationElement));
+                        Assert.AreEqual(ControlType.TabItem, selection[0].Current.ControlType);
+                    }
+
+                }
+            }
+        }
+
+        [DllImport("oleacc.dll")]
+        internal static extern int AccessibleObjectFromWindow(
+             IntPtr hwnd,
+             uint id,
+             ref Guid iid,
+             [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object ppvObject);
+
+        [TestMethod()]
+        public void IAccessibleInterop()
+        {
+            // Get the clock
+            AutomationElement taskbar = AutomationElement.RootElement.FindFirst(TreeScope.Children,
+                new PropertyCondition(AutomationElement.ClassNameProperty, "Shell_TrayWnd"));
+            Assert.IsNotNull(taskbar);
+
+            AutomationElement clock = taskbar.FindFirst(TreeScope.Subtree,
+                new PropertyCondition(AutomationElement.ClassNameProperty, "TrayClockWClass"));
+            Assert.IsNotNull(clock);
+
+            // Get the IAccessible for the clock
+            IntPtr clockHwnd = (IntPtr)clock.Current.NativeWindowHandle;
+            Guid iidAccessible = new Guid("{618736E0-3C3D-11CF-810C-00AA00389B71}");
+            object obj = null;
+            int retVal = AccessibleObjectFromWindow(clockHwnd, (uint)0xFFFFFFFC, ref iidAccessible, ref obj);
+            Assert.IsNotNull(obj);
+            Accessibility.IAccessible accessible = (Accessibility.IAccessible)obj;
+            Assert.IsNotNull(accessible);
+            Assert.AreEqual(0x3D /* clock */, accessible.get_accRole(0));
+
+            // Convert to an element
+            AutomationElement element = AutomationElement.FromIAccessible(accessible, 0);
+            Assert.IsNotNull(element);
+            Assert.AreEqual(ControlType.Pane, element.Current.ControlType);
+
+            // Round-trip: let's get the IAccessible back out
+            LegacyIAccessiblePattern legacy = (LegacyIAccessiblePattern)element.GetCurrentPattern(LegacyIAccessiblePattern.Pattern);
+            Accessibility.IAccessible legacyIAcc = legacy.GetIAccessible();
+            Assert.IsNotNull(legacyIAcc);
+            Assert.AreEqual(0x3D /* clock */, legacyIAcc.get_accRole(0));
+        }
+
     }
 }

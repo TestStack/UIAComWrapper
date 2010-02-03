@@ -218,35 +218,11 @@ namespace System.Windows.Automation
         {
             Utility.ValidateArgumentNonNull(property, "property");
 
-            if (val != null)
-            {
-                if (val is ControlType)
-                {
-                    val = ((ControlType)val).Id;
-                }
-                else if (val is Rect)
-                {
-                    Rect rect = (Rect)val;
-                    val = new double[] { rect.Left, rect.Top, rect.Width, rect.Height };
-                }
-                else if (val is Point)
-                {
-                    Point point = (Point)val;
-                    val = new double[] { point.X, point.Y };
-                }
-                else if (val is CultureInfo)
-                {
-                    val = ((CultureInfo)val).LCID;
-                }
-                else if (val is AutomationElement)
-                {
-                    val = ((AutomationElement)val).NativeElement;
-                }
-            }
-
             this._obj = (UIAutomationClient.IUIAutomationPropertyCondition)
                 Automation.Factory.CreatePropertyConditionEx(
-                property.Id, val, (UIAutomationClient.PropertyConditionFlags)flags);
+                property.Id,
+                Utility.UnwrapObject(val), 
+                (UIAutomationClient.PropertyConditionFlags)flags);
         }
 
         internal override UIAutomationClient.IUIAutomationCondition NativeCondition

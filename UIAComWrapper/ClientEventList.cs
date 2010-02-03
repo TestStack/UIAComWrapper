@@ -46,7 +46,7 @@ namespace UIAComWrapperInternal
             return (listener != null &&
                     this._eventId == listener.EventId &&
                     this._handler == listener.Handler &&
-                    Utility.Compare(this._runtimeId, listener.RuntimeId));
+                    Automation.Compare(this._runtimeId, listener.RuntimeId));
         }
 
         public override int GetHashCode()

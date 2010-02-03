@@ -25,7 +25,7 @@ namespace System.Windows.Automation
     // In the original API, this was a System.Windows.Automation.Providers type.
     // But I cannot pass anything but a UIAutomationClient type into 
     // the COM API's return parameter.
-    public delegate UIAutomationClient.IRawElementProviderSimple ClientSideProviderFactoryCallback(IntPtr hwnd, int idChild, int idObject);
+    public delegate IRawElementProviderSimple ClientSideProviderFactoryCallback(IntPtr hwnd, int idChild, int idObject);
 
     [StructLayout(LayoutKind.Sequential)]
     public struct ClientSideProviderDescription
@@ -100,9 +100,9 @@ namespace System.Windows.Automation
 
         #region IUIAutomationProxyFactory Members
 
-        UIAutomationClient.IRawElementProviderSimple UIAutomationClient.IUIAutomationProxyFactory.CreateProvider(IntPtr hwnd, int idObject, int idChild)
+        IRawElementProviderSimple UIAutomationClient.IUIAutomationProxyFactory.CreateProvider(IntPtr hwnd, int idObject, int idChild)
         {
-            UIAutomationClient.IRawElementProviderSimple provider = _callback(hwnd, idChild, idObject);
+            IRawElementProviderSimple provider = _callback(hwnd, idChild, idObject);
             return provider;
         }
 

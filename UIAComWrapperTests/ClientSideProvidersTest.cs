@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UIAComWrapperTests
 {
     [System.Runtime.InteropServices.ComVisible(true)]
-    public class SampleButtonProvider : UIAutomationClient.IRawElementProviderSimple
+    public class SampleButtonProvider : IRawElementProviderSimple
     {
         private IntPtr _hwnd;
         static public readonly string ButtonName = "TestButton";
@@ -45,7 +45,7 @@ namespace UIAComWrapperTests
             return null;
         }
 
-        public UIAutomationClient.IRawElementProviderSimple HostRawElementProvider
+        public IRawElementProviderSimple HostRawElementProvider
         {
             get
             {
@@ -55,7 +55,7 @@ namespace UIAComWrapperTests
 
         #endregion
 
-        public static UIAutomationClient.IRawElementProviderSimple ButtonFactory(IntPtr hwnd, int idChild, int idObject)
+        public static IRawElementProviderSimple ButtonFactory(IntPtr hwnd, int idChild, int idObject)
         {
             return new SampleButtonProvider(hwnd);
         }

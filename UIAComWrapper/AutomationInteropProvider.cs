@@ -16,13 +16,13 @@ namespace System.Windows.Automation.Providers
         public const int InvalidateLimit = 20;
         public const int RootObjectId = -25;
 
-        public static UIAutomationClient.IRawElementProviderSimple HostProviderFromHandle(IntPtr hwnd)
+        public static IRawElementProviderSimple HostProviderFromHandle(IntPtr hwnd)
         {
             Utility.ValidateArgument(hwnd != IntPtr.Zero, "HWND must not be null");
             return UiaCoreProviderApi.UiaHostProviderFromHwnd(hwnd);
         }
 
-        public static void RaiseAutomationEvent(AutomationEvent eventId, UIAutomationClient.IRawElementProviderSimple provider, AutomationEventArgs e)
+        public static void RaiseAutomationEvent(AutomationEvent eventId, IRawElementProviderSimple provider, AutomationEventArgs e)
         {
             Utility.ValidateArgumentNonNull(eventId, "eventId");
             Utility.ValidateArgumentNonNull(provider, "provider");
@@ -46,21 +46,21 @@ namespace System.Windows.Automation.Providers
             }
         }
 
-        public static void RaiseAutomationPropertyChangedEvent(UIAutomationClient.IRawElementProviderSimple element, AutomationPropertyChangedEventArgs e)
+        public static void RaiseAutomationPropertyChangedEvent(IRawElementProviderSimple element, AutomationPropertyChangedEventArgs e)
         {
             Utility.ValidateArgumentNonNull(element, "element");
             Utility.ValidateArgumentNonNull(e, "e");
             UiaCoreProviderApi.UiaRaiseAutomationPropertyChangedEvent(element, e.Property.Id, e.OldValue, e.NewValue);
         }
 
-        public static void RaiseStructureChangedEvent(UIAutomationClient.IRawElementProviderSimple provider, StructureChangedEventArgs e)
+        public static void RaiseStructureChangedEvent(IRawElementProviderSimple provider, StructureChangedEventArgs e)
         {
             Utility.ValidateArgumentNonNull(provider, "provider");
             Utility.ValidateArgumentNonNull(e, "e");
             UiaCoreProviderApi.UiaRaiseStructureChangedEvent(provider, (UIAutomationClient.StructureChangeType)e.StructureChangeType, e.GetRuntimeId());
         }
 
-        public static IntPtr ReturnRawElementProvider(IntPtr hwnd, IntPtr wParam, IntPtr lParam, UIAutomationClient.IRawElementProviderSimple el)
+        public static IntPtr ReturnRawElementProvider(IntPtr hwnd, IntPtr wParam, IntPtr lParam, IRawElementProviderSimple el)
         {
             Utility.ValidateArgument(hwnd != IntPtr.Zero, "HWND must not be null");
             Utility.ValidateArgumentNonNull(el, "el");

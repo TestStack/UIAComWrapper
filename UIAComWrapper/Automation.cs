@@ -128,14 +128,37 @@ namespace System.Windows.Automation
 
         public static bool Compare(int[] runtimeId1, int[] runtimeId2)
         {
-            return Utility.Compare(runtimeId1, runtimeId2);
+            if (runtimeId1 == null && runtimeId2 == null)
+            {
+                return true;
+            }
+            if (runtimeId1 == null || runtimeId2 == null)
+            {
+                return false;
+            }
+            try
+            {
+                return Factory.CompareRuntimeIds(runtimeId1, runtimeId2) != 0;
+            }
+            catch (System.Runtime.InteropServices.COMException e)
+            {
+                Exception newEx; if (Utility.ConvertException(e, out newEx)) { throw newEx; } else { throw; }
+            }
         }
 
         public static bool Compare(AutomationElement el1, AutomationElement el2)
         {
+            if (el1 == null && el2 == null)
+            {
+                return true;
+            }
+            if (el1 == null || el2 == null)
+            {
+                return false;
+            }
             try
             {
-                return Utility.Compare(el1, el2);
+                return Factory.CompareElements(el1.NativeElement, el2.NativeElement) != 0;
             }
             catch (System.Runtime.InteropServices.COMException e)
             {

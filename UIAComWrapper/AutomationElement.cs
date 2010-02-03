@@ -77,6 +77,21 @@ namespace System.Windows.Automation
         public static readonly AutomationEvent ToolTipClosedEvent = AutomationElementIdentifiers.ToolTipClosedEvent;
         public static readonly AutomationEvent ToolTipOpenedEvent = AutomationElementIdentifiers.ToolTipOpenedEvent;
 
+        public static readonly AutomationProperty IsLegacyIAccessiblePatternAvailableProperty = AutomationElementIdentifiers.IsLegacyIAccessiblePatternAvailableProperty;
+        public static readonly AutomationProperty IsItemContainerPatternAvailableProperty = AutomationElementIdentifiers.IsItemContainerPatternAvailableProperty;
+        public static readonly AutomationProperty IsVirtualizedItemPatternAvailableProperty = AutomationElementIdentifiers.IsVirtualizedItemPatternAvailableProperty;
+        public static readonly AutomationProperty IsSynchronizedInputPatternAvailableProperty = AutomationElementIdentifiers.IsSynchronizedInputPatternAvailableProperty;
+
+        public static readonly AutomationProperty AriaRoleProperty = AutomationElementIdentifiers.AriaRoleProperty;
+        public static readonly AutomationProperty AriaPropertiesProperty = AutomationElementIdentifiers.AriaPropertiesProperty;
+        public static readonly AutomationProperty IsDataValidForFormProperty = AutomationElementIdentifiers.IsDataValidForFormProperty;
+        public static readonly AutomationProperty ControllerForProperty = AutomationElementIdentifiers.ControllerForProperty;
+        public static readonly AutomationProperty DescribedByProperty = AutomationElementIdentifiers.DescribedByProperty;
+        public static readonly AutomationProperty FlowsToProperty = AutomationElementIdentifiers.FlowsToProperty;
+        public static readonly AutomationProperty ProviderDescriptionProperty = AutomationElementIdentifiers.ProviderDescriptionProperty;
+
+        public static readonly AutomationEvent MenuModeStartEvent = AutomationElementIdentifiers.MenuModeStartEvent;
+        public static readonly AutomationEvent MenuModeEndEvent = AutomationElementIdentifiers.MenuModeEndEvent;
         
         internal AutomationElement(UIAutomationClient.IUIAutomationElement obj)
         {
@@ -143,6 +158,25 @@ namespace System.Windows.Automation
             {
                 UIAutomationClient.IUIAutomationElement element =
                     Automation.Factory.ElementFromHandleBuildCache(hwnd, CacheRequest.CurrentNativeCacheRequest);
+                return AutomationElement.Wrap(element);
+            }
+            catch (System.Runtime.InteropServices.COMException e)
+            {
+                Exception newEx; if (Utility.ConvertException(e, out newEx)) { throw newEx; } else { throw; }
+            }
+        }
+
+        public static AutomationElement FromIAccessible(Accessibility.IAccessible acc, int childId)
+        {
+            Utility.ValidateArgumentNonNull(acc, "acc");
+
+            try
+            {
+                UIAutomationClient.IUIAutomationElement element =
+                    Automation.Factory.ElementFromIAccessibleBuildCache(
+                        (UIAutomationClient.IAccessible)acc, 
+                        childId,
+                        CacheRequest.CurrentNativeCacheRequest);
                 return AutomationElement.Wrap(element);
             }
             catch (System.Runtime.InteropServices.COMException e)
@@ -733,7 +767,55 @@ namespace System.Windows.Automation
                     return (string)this._el.GetPropertyValue(AutomationElement.ItemStatusProperty, _isCached);
                 }
             }
+            public string AriaRole
+            {
+                get
+                {
+                    return (string)this._el.GetPropertyValue(AutomationElement.AriaRoleProperty, _isCached);
+                }
+            }
+            public string AriaProperties
+            {
+                get
+                {
+                    return (string)this._el.GetPropertyValue(AutomationElement.AriaPropertiesProperty, _isCached);
+                }
+            }
+            public bool IsDataValidForForm
+            {
+                get
+                {
+                    return (bool)this._el.GetPropertyValue(AutomationElement.IsDataValidForFormProperty, _isCached);
+                }
+            }
+            public AutomationElement ControllerFor
+            {
+                get
+                {
+                    return (AutomationElement)this._el.GetPropertyValue(AutomationElement.ControllerForProperty, _isCached);
+                }
+            }
+            public AutomationElement DescribedBy
+            {
+                get
+                {
+                    return (AutomationElement)this._el.GetPropertyValue(AutomationElement.DescribedByProperty, _isCached);
+                }
+            }
+            public AutomationElement FlowsTo
+            {
+                get
+                {
+                    return (AutomationElement)this._el.GetPropertyValue(AutomationElement.FlowsToProperty, _isCached);
+                }
+            }
+            public string ProviderDescription
+            {
+                get
+                {
+                    return (string)this._el.GetPropertyValue(AutomationElement.ProviderDescriptionProperty, _isCached);
+                }
+            }
         }
-
     }
 }

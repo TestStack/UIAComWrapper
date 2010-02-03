@@ -252,5 +252,46 @@ namespace UIAComWrapperTests
             iter = walker.GetParent(iter);
             Assert.AreEqual(startingElement, iter);
         }
+
+        [TestMethod()]
+        public void VirtualizedPatternTest()
+        {
+            AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
+                new PropertyCondition(AutomationElement.ClassNameProperty, "UIItemsView"));
+            Assert.IsNotNull(itemsView);
+
+            // Get the container
+            Assert.IsTrue((bool)itemsView.GetCurrentPropertyValue(AutomationElement.IsItemContainerPatternAvailableProperty));
+            ItemContainerPattern container = (ItemContainerPattern)itemsView.GetCurrentPattern(ItemContainerPattern.Pattern);
+            
+            // Look for something we know is there and is probably below the fold
+            AutomationElement item1 = container.FindItemByProperty(null, AutomationElement.NameProperty, "winver");
+            Assert.IsNotNull(item1);
+
+            // Let's get another one
+            AutomationElement item2 = container.FindItemByProperty(item1, AutomationElement.NameProperty, "xcopy");
+            Assert.IsNotNull(item2);
+
+            // Check the bounding rect -- should be empty
+            System.Windows.Rect rect1 = item2.Current.BoundingRectangle;
+            Assert.AreEqual(0, rect1.Width);
+            Assert.AreEqual(0, rect1.Height);
+
+            // Get the virtualized pattern
+            Assert.IsTrue((bool)item2.GetCurrentPropertyValue(AutomationElement.IsVirtualizedItemPatternAvailableProperty));
+            VirtualizedItemPattern virtItem2 = (VirtualizedItemPattern)item2.GetCurrentPattern(VirtualizedItemPattern.Pattern);
+            Assert.IsNotNull(item2);
+
+            // Realize the item and give the window a moment to scroll
+            virtItem2.Realize();
+            System.Threading.Thread.Sleep(100 /* ms */);
+
+            // Check the bounding rect now - should not be empty
+            System.Windows.Rect rect2 = item2.Current.BoundingRectangle;
+            Assert.AreNotEqual(0, rect2.Width);
+            Assert.AreNotEqual(0, rect2.Height);
+
+
+        }
     }
 }

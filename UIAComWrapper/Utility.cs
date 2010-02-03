@@ -5,6 +5,8 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Automation;
 
 namespace UIAComWrapperInternal
@@ -101,38 +103,6 @@ namespace UIAComWrapperInternal
                 destinationIndex += num3;
             }
             return destinationArray;
-        }
-
-        internal static bool Compare(AutomationElement el1, AutomationElement el2)
-        {
-            CheckNonNull(el1, el2);
-            return Compare(el1.GetRuntimeId(), el2.GetRuntimeId());
-        }
-
-        internal static bool Compare(int[] a1, int[] a2)
-        {
-            if ((a1 == null) != (a2 == null))
-            {
-                return false;
-            }
-            if (a1 == null && a2 == null)
-            {
-                return true;
-            }            
-            CheckNonNull(a1, a2);
-            int length = a1.Length;
-            if (length != a2.Length)
-            {
-                return false;
-            }
-            for (int i = 0; i < length; i++)
-            {
-                if (a1[i] != a2[i])
-                {
-                    return false;
-                }
-            }
-            return true;
         }
 
         internal static Array RemoveDuplicates(Array a, Type t)
@@ -234,6 +204,37 @@ namespace UIAComWrapperInternal
             }
 
             return obj;
+        }
+
+        // Unwrap an object from API representationt to what the native client will expect
+        internal static object UnwrapObject(object val)
+        {
+            if (val != null)
+            {
+                if (val is ControlType)
+                {
+                    val = ((ControlType)val).Id;
+                }
+                else if (val is Rect)
+                {
+                    Rect rect = (Rect)val;
+                    val = new double[] { rect.Left, rect.Top, rect.Width, rect.Height };
+                }
+                else if (val is Point)
+                {
+                    Point point = (Point)val;
+                    val = new double[] { point.X, point.Y };
+                }
+                else if (val is CultureInfo)
+                {
+                    val = ((CultureInfo)val).LCID;
+                }
+                else if (val is AutomationElement)
+                {
+                    val = ((AutomationElement)val).NativeElement;
+                }
+            }
+            return val;
         }
     }
 }

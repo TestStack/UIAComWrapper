@@ -315,6 +315,9 @@ namespace UIAComWrapperTests
         {
             AutomationElement el1 = GetStartButton();
             AutomationElement el2 = GetStartButton();
+            Assert.IsTrue(Automation.Compare((AutomationElement)null, (AutomationElement)null));
+            Assert.IsFalse(Automation.Compare(null, el1));
+            Assert.IsFalse(Automation.Compare(el1, null));
             Assert.IsTrue(Automation.Compare(el1, el2));
             Assert.IsTrue(Automation.Compare(el1.GetRuntimeId(), el2.GetRuntimeId()));
         }
@@ -337,14 +340,7 @@ namespace UIAComWrapperTests
         [TestMethod()]
         public void ProviderDescriptionTest()
         {
-            // Retrieve a property that client doesn't (currently) know about
-            AutomationProperty providerDescProp = AutomationProperty.LookupById(
-                UIAutomationClient.UIA_PropertyIds.UIA_ProviderDescriptionPropertyId);
-            Assert.IsNull(providerDescProp);
-            providerDescProp = new AutomationProperty(UIAutomationClient.UIA_PropertyIds.UIA_ProviderDescriptionPropertyId,
-                Guid.Empty, "Provider Description");
-            
-            string description = (string)AutomationElement.RootElement.GetCurrentPropertyValue(providerDescProp);
+            string description = (string)AutomationElement.RootElement.GetCurrentPropertyValue(AutomationElement.ProviderDescriptionProperty);
             Assert.IsNotNull(description);
             Assert.IsTrue(description.Length > 0);
         }

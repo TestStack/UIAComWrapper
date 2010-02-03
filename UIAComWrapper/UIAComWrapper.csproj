@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{1DD63894-DBB9-40EF-BFF2-55624CB285AF}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -31,6 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -61,6 +63,9 @@
     <Compile Include="InternalTypes.cs" />
     <Compile Include="InvokePattern.cs" />
     <Compile Include="AutomationInteropProvider.cs" />
+    <Compile Include="LegacyIAccessiblePattern.cs" />
+    <Compile Include="ProviderInterfaces.cs" />
+    <Compile Include="SynchronizedInput.cs" />
     <Compile Include="UiaCoreProviderApi.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="MultipleViewPattern.cs" />
@@ -75,18 +80,11 @@
     <Compile Include="TablePattern.cs" />
     <Compile Include="TogglePattern.cs" />
     <Compile Include="TransformPattern.cs" />
+    <Compile Include="VirtualizedPatterns.cs" />
     <Compile Include="WindowPattern.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="UIAutomationClient">
-      <Guid>{944DE083-8FB8-45CF-BCB7-C477ACB2F897}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <Private>True</Private>
-    </COMReference>
+    <None Include="CustomInterop.UIAutomationClient.il" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -96,4 +94,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>"$(FrameworkDir)\$(FrameworkVersion)\ilasm" $(ProjectDir)\CustomInterop.UIAutomationClient.il /dll /output=$(TargetDir)\Interop.UIAutomationClient.dll</PreBuildEvent>
+  </PropertyGroup>
 </Project>

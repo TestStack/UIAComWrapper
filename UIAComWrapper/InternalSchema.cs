@@ -169,7 +169,11 @@ namespace UIAComWrapperInternal
             new PatternTypeInfo(TextPattern.Pattern, new PatternWrapper(TextPattern.Wrap)), 
             new PatternTypeInfo(TogglePattern.Pattern, new PatternWrapper(TogglePattern.Wrap)), 
             new PatternTypeInfo(TransformPattern.Pattern, new PatternWrapper(TransformPattern.Wrap)), 
-            new PatternTypeInfo(ScrollItemPattern.Pattern, new PatternWrapper(ScrollItemPattern.Wrap))
+            new PatternTypeInfo(ScrollItemPattern.Pattern, new PatternWrapper(ScrollItemPattern.Wrap)),
+            new PatternTypeInfo(ItemContainerPattern.Pattern, new PatternWrapper(ItemContainerPattern.Wrap)),
+            new PatternTypeInfo(VirtualizedItemPattern.Pattern, new PatternWrapper(VirtualizedItemPattern.Wrap)),
+            new PatternTypeInfo(LegacyIAccessiblePattern.Pattern, new PatternWrapper(LegacyIAccessiblePattern.Wrap)),
+            new PatternTypeInfo(SynchronizedInputPattern.Pattern, new PatternWrapper(SynchronizedInputPattern.Wrap))
      };
 
         
@@ -195,7 +199,15 @@ namespace UIAComWrapperInternal
         {
             if (value is int)
             {
-                return new CultureInfo((int)value);
+                if ((int)value == 0)
+                {
+                    // Some providers return 0 to mean Invariant
+                    return CultureInfo.InvariantCulture;
+                }
+                else
+                {
+                    return new CultureInfo((int)value);
+                }
             }
             return null;
         }
