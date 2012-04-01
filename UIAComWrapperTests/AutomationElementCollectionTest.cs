@@ -1,7 +1,8 @@
-﻿// (c) Copyright Michael Bernstein, 2009.
+// (c) Copyright Microsoft, 2012.
 // This source is subject to the Microsoft Permissive License.
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // All other rights reserved.
+
 
 using System.Windows.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -110,14 +111,15 @@ namespace UIAComWrapperTests
         {
             IEnumerator actual = this.testColl.GetEnumerator();
             int count = 0;
-            do
+            while (actual.MoveNext())
             {
                 AutomationElement elem = (AutomationElement)actual.Current;
                 Assert.IsNotNull(elem);
                 ++count;
-            } while (actual.MoveNext());
+            } 
 
             actual.Reset();
+            actual.MoveNext();
             Assert.AreEqual(actual.Current, this.testColl[0]);
         }
 

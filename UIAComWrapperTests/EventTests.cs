@@ -1,7 +1,8 @@
-﻿// (c) Copyright Michael Bernstein, 2009.
+// (c) Copyright Microsoft, 2012.
 // This source is subject to the Microsoft Permissive License.
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // All other rights reserved.
+
 
 using System;
 using System.Windows.Automation;
@@ -164,6 +165,8 @@ namespace UIAComWrapperTests
         }
 
         [TestMethod]
+        [Ignore] 
+        // Test is not working on Windows 8 due to the Start Button being removed
         public void TestInvokeEvent()
         {
             AutomationElement startButton = AutomationElementTest.GetStartButton();

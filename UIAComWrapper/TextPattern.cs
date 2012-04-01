@@ -1,7 +1,8 @@
-﻿// (c) Copyright Michael Bernstein, 2009.
+// (c) Copyright Microsoft, 2012.
 // This source is subject to the Microsoft Permissive License.
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // All other rights reserved.
+
 
 using System;
 using System.Collections;
@@ -53,7 +54,7 @@ namespace System.Windows.Automation
         public static readonly AutomationTextAttribute UnderlineStyleAttribute = TextPatternIdentifiers.UnderlineStyleAttribute;
 
         
-        private TextPattern(AutomationElement el, UIAutomationClient.IUIAutomationTextPattern pattern, bool cached)
+        protected TextPattern(AutomationElement el, UIAutomationClient.IUIAutomationTextPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
@@ -141,6 +142,73 @@ namespace System.Windows.Automation
                 {
                     Exception newEx; if (Utility.ConvertException(e, out newEx)) { throw newEx; } else { throw; }
                 }
+            }
+        }
+    }
+
+    public class TextPattern2 : TextPattern
+    {
+        private UIAutomationClient.IUIAutomationTextPattern2 _pattern;
+        public static readonly new AutomationPattern Pattern = TextPattern2Identifiers.Pattern;
+        public static readonly AutomationTextAttribute AnnotationTypesAttribute = TextPattern2Identifiers.AnnotationTypesAttribute;
+        public static readonly AutomationTextAttribute AnnotationObjectsAttribute = TextPattern2Identifiers.AnnotationObjectsAttribute;
+        public static readonly AutomationTextAttribute StyleNameAttribute = TextPattern2Identifiers.StyleNameAttribute;
+        public static readonly AutomationTextAttribute StyleIdAttribute = TextPattern2Identifiers.StyleIdAttribute;
+        public static readonly AutomationTextAttribute LinkAttribute = TextPattern2Identifiers.LinkAttribute;
+        public static readonly AutomationTextAttribute IsActiveAttribute = TextPattern2Identifiers.IsActiveAttribute;
+        public static readonly AutomationTextAttribute SelectionActiveEndAttribute = TextPattern2Identifiers.SelectionActiveEndAttribute;
+        public static readonly AutomationTextAttribute CaretPositionAttribute = TextPattern2Identifiers.CaretPositionAttribute;
+        public static readonly AutomationTextAttribute CaretBidiModeAttribute = TextPattern2Identifiers.CaretBidiModeAttribute;
+
+        private TextPattern2(AutomationElement el, UIAutomationClient.IUIAutomationTextPattern2 pattern, UIAutomationClient.IUIAutomationTextPattern basePattern, bool cached)
+            : base(el, basePattern, cached)
+        {
+            Debug.Assert(pattern != null);
+            this._pattern = pattern;
+        }
+
+        internal static new object Wrap(AutomationElement el, object pattern, bool cached)
+        {
+            TextPattern2 result = null;
+            if (pattern != null)
+            {
+                UIAutomationClient.IUIAutomationTextPattern basePattern =
+                    (UIAutomationClient.IUIAutomationTextPattern)el.GetRawPattern(TextPattern.Pattern, cached);
+                if (basePattern != null)
+                {
+                    result = new TextPattern2(el, (UIAutomationClient.IUIAutomationTextPattern2)pattern,
+                        basePattern, cached);
+                }
+            }
+            return result;
+        }
+
+        public TextPatternRange RangeFromAnnotation(AutomationElement annotation)
+        {
+            Utility.ValidateArgumentNonNull(annotation, "annotation");
+            try
+            {
+                return TextPatternRange.Wrap(this._pattern.RangeFromAnnotation(annotation.NativeElement), this);
+            }
+            catch (System.Runtime.InteropServices.COMException e)
+            {
+                Exception newEx; if (Utility.ConvertException(e, out newEx)) { throw newEx; } else { throw; }
+            }
+        }
+
+        public TextPatternRange GetCaretRange(out bool isActive)
+        {
+            try
+            {
+                int intIsActive;
+                TextPatternRange caretRange = TextPatternRange.Wrap(
+                    this._pattern.GetCaretRange(out intIsActive), this);
+                isActive = (intIsActive != 0);
+                return caretRange;
+            }
+            catch (System.Runtime.InteropServices.COMException e)
+            {
+                Exception newEx; if (Utility.ConvertException(e, out newEx)) { throw newEx; } else { throw; }
             }
         }
     }

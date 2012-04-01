@@ -4,33 +4,31 @@
 // All other rights reserved.
 
 
-
 using System;
+using System.Collections;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using UIAComWrapperInternal;
 
 namespace System.Windows.Automation
 {
-    public class InvokePattern : BasePattern
+    public class ObjectModelPattern : BasePattern
     {
-        
-        private UIAutomationClient.IUIAutomationInvokePattern _pattern;
-        public static readonly AutomationEvent InvokedEvent = InvokePatternIdentifiers.InvokedEvent;
-        public static readonly AutomationPattern Pattern = InvokePatternIdentifiers.Pattern;
+        private UIAutomationClient.IUIAutomationObjectModelPattern _pattern;
+        public static readonly AutomationPattern Pattern = ObjectModelPatternIdentifiers.Pattern;
 
-        
-        private InvokePattern(AutomationElement el, UIAutomationClient.IUIAutomationInvokePattern pattern, bool cached)
+        private ObjectModelPattern(AutomationElement el, UIAutomationClient.IUIAutomationObjectModelPattern pattern, bool cached)
             : base(el, cached)
         {
             Debug.Assert(pattern != null);
             this._pattern = pattern;
         }
 
-        public void Invoke()
+        public object GetUnderlyingObjectModel()
         {
             try
             {
-                this._pattern.Invoke();
+                return this._pattern.GetUnderlyingObjectModel();
             }
             catch (System.Runtime.InteropServices.COMException e)
             {
@@ -40,7 +38,7 @@ namespace System.Windows.Automation
 
         internal static object Wrap(AutomationElement el, object pattern, bool cached)
         {
-            return (pattern == null) ? null : new InvokePattern(el, (UIAutomationClient.IUIAutomationInvokePattern)pattern, cached);
+            return (pattern == null) ? null : new ObjectModelPattern(el, (UIAutomationClient.IUIAutomationObjectModelPattern)pattern, cached);
         }
     }
 }

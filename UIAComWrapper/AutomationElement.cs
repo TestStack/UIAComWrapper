@@ -1,7 +1,8 @@
-﻿// (c) Copyright Michael Bernstein, 2009.
+// (c) Copyright Microsoft, 2012.
 // This source is subject to the Microsoft Permissive License.
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // All other rights reserved.
+
 
 using System;
 using System.Collections;
@@ -92,6 +93,26 @@ namespace System.Windows.Automation
 
         public static readonly AutomationEvent MenuModeStartEvent = AutomationElementIdentifiers.MenuModeStartEvent;
         public static readonly AutomationEvent MenuModeEndEvent = AutomationElementIdentifiers.MenuModeEndEvent;
+
+        // New for Windows 8
+        public static readonly AutomationProperty IsObjectModelPatternAvailableProperty = AutomationElementIdentifiers.IsObjectModelPatternAvailableProperty;
+        public static readonly AutomationProperty IsAnnotationPatternAvailableProperty = AutomationElementIdentifiers.IsAnnotationPatternAvailableProperty;
+        public static readonly AutomationProperty IsTextPattern2AvailableProperty = AutomationElementIdentifiers.IsTextPattern2AvailableProperty;
+        public static readonly AutomationProperty IsStylesPatternAvailableProperty = AutomationElementIdentifiers.IsStylesPatternAvailableProperty;
+        public static readonly AutomationProperty IsSpreadsheetPatternAvailableProperty = AutomationElementIdentifiers.IsSpreadsheetPatternAvailableProperty;
+        public static readonly AutomationProperty IsSpreadsheetItemPatternAvailableProperty = AutomationElementIdentifiers.IsSpreadsheetItemPatternAvailableProperty;
+        public static readonly AutomationProperty IsTransformPattern2AvailableProperty = AutomationElementIdentifiers.IsTransformPattern2AvailableProperty;
+        public static readonly AutomationProperty IsTextChildPatternAvailableProperty = AutomationElementIdentifiers.IsTextChildPatternAvailableProperty;
+        public static readonly AutomationProperty IsDragPatternAvailableProperty = AutomationElementIdentifiers.IsDragPatternAvailableProperty;
+        public static readonly AutomationProperty IsDropTargetPatternAvailableProperty = AutomationElementIdentifiers.IsDropTargetPatternAvailableProperty;
+
+        public static readonly AutomationProperty OptimizeForVisualContentProperty = AutomationElementIdentifiers.OptimizeForVisualContentProperty;
+        public static readonly AutomationProperty LiveSettingProperty = AutomationElementIdentifiers.LiveSettingProperty;
+
+        public static readonly AutomationEvent SystemAlertEvent = AutomationElementIdentifiers.SystemAlertEvent;
+        public static readonly AutomationEvent LiveRegionChangedEvent = AutomationElementIdentifiers.LiveRegionChangedEvent;
+        public static readonly AutomationEvent HostedFragmentRootsInvalidatedEvent = AutomationElementIdentifiers.HostedFragmentRootsInvalidatedEvent;
+
         
         internal AutomationElement(UIAutomationClient.IUIAutomationElement obj)
         {
@@ -545,7 +566,7 @@ namespace System.Windows.Automation
             }
         }
 
-        internal UIAutomationClient.IUIAutomationElement NativeElement
+        public UIAutomationClient.IUIAutomationElement NativeElement
         {
             get
             {
@@ -814,6 +835,22 @@ namespace System.Windows.Automation
                 get
                 {
                     return (string)this._el.GetPropertyValue(AutomationElement.ProviderDescriptionProperty, _isCached);
+                }
+            }
+
+            public bool OptimizeForVisualContent
+            {
+                get
+                {
+                    return (bool)this._el.GetPropertyValue(AutomationElement.OptimizeForVisualContentProperty, _isCached);
+                }
+            }
+
+            public LiveSetting LiveSetting
+            {
+                get
+                {
+                    return (LiveSetting)this._el.GetPropertyValue(AutomationElement.LiveSettingProperty, _isCached);
                 }
             }
         }

@@ -1,7 +1,8 @@
-﻿// (c) Copyright Michael Bernstein, 2010.
+// (c) Copyright Microsoft, 2012.
 // This source is subject to the Microsoft Permissive License.
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // All other rights reserved.
+
 
 using System;
 using System.Windows.Automation;
@@ -107,7 +108,7 @@ namespace UIAComWrapperTests
         public void MyTestInitialize()
         {
             // Find the Start button, which will be our target
-            AutomationElement trueStartButton = AutomationElementTest.GetStartButton();
+            AutomationElement trueStartButton = AutomationElementTest.GetTaskbar();
             this.startButtonHwnd = (IntPtr)trueStartButton.Current.NativeWindowHandle;
         }
         
@@ -122,7 +123,7 @@ namespace UIAComWrapperTests
         {
             // Create the provider
             ClientSideProviderDescription provider = new ClientSideProviderDescription(
-                new ClientSideProviderFactoryCallback(SampleButtonProvider.ButtonFactory), "BUTTON");
+                new ClientSideProviderFactoryCallback(SampleButtonProvider.ButtonFactory), "Shell_TrayWnd");
             ClientSideProviderDescription[] providers = new ClientSideProviderDescription[1] { provider };
 
             try
@@ -159,7 +160,7 @@ namespace UIAComWrapperTests
             ClientSideProviderDescription provider = new ClientSideProviderDescription(
                 new ClientSideProviderFactoryCallback(
                     SampleButtonProvider.ButtonFactory),
-                    "BUT",
+                    "Shell_",
                     null /* image name */,
                     ClientSideProviderMatchIndicator.AllowSubstringMatch);
             ClientSideProviderDescription[] providers = new ClientSideProviderDescription[1] { provider };
@@ -189,7 +190,7 @@ namespace UIAComWrapperTests
             ClientSideProviderDescription provider = new ClientSideProviderDescription(
                 new ClientSideProviderFactoryCallback(
                     SampleButtonProvider.ButtonFactory),
-                    "BUT",
+                    "Shell_",
                     null /* image name */,
                     ClientSideProviderMatchIndicator.None);
             ClientSideProviderDescription[] providers = new ClientSideProviderDescription[1] { provider };
@@ -219,7 +220,7 @@ namespace UIAComWrapperTests
             ClientSideProviderDescription provider = new ClientSideProviderDescription(
                 new ClientSideProviderFactoryCallback(
                     SampleButtonProvider.ButtonFactory),
-                    "BUTTON",
+                    "Shell_TrayWnd",
                     "EXPLORER.EXE",
                     ClientSideProviderMatchIndicator.None);
             ClientSideProviderDescription[] providers = new ClientSideProviderDescription[1] { provider };
@@ -250,7 +251,7 @@ namespace UIAComWrapperTests
             ClientSideProviderDescription provider = new ClientSideProviderDescription(
                 new ClientSideProviderFactoryCallback(
                     SampleButtonProvider.ButtonFactory),
-                    "BUTTON",
+                    "Shell_TrayWnd",
                     "NOTEPAD.EXE",
                     ClientSideProviderMatchIndicator.None);
             ClientSideProviderDescription[] providers = new ClientSideProviderDescription[1] { provider };

@@ -1,17 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{1DD63894-DBB9-40EF-BFF2-55624CB285AF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UIAComWrapper</RootNamespace>
     <AssemblyName>UIAComWrapper</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,11 +62,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnnotationPattern.cs" />
     <Compile Include="Automation.cs" />
     <Compile Include="AutomationElement.cs" />
     <Compile Include="AutomationElementCollection.cs" />
@@ -56,6 +75,8 @@
     <Compile Include="ClientSideProviders.cs" />
     <Compile Include="Conditions.cs" />
     <Compile Include="DockPattern.cs" />
+    <Compile Include="DragPattern.cs" />
+    <Compile Include="DropTargetPattern.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="ExpandCollapsePattern.cs" />
     <Compile Include="GridPattern.cs" />
@@ -63,9 +84,18 @@
     <Compile Include="InternalTypes.cs" />
     <Compile Include="InvokePattern.cs" />
     <Compile Include="AutomationInteropProvider.cs" />
+    <Compile Include="Key.cs" />
+    <Compile Include="KeyInterop.cs" />
     <Compile Include="LegacyIAccessiblePattern.cs" />
+    <Compile Include="ObjectModelPattern.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="ProviderInterfaces.cs" />
+    <Compile Include="Rect.cs" />
+    <Compile Include="Size.cs" />
+    <Compile Include="SpreadsheetPattern.cs" />
+    <Compile Include="StylesPattern.cs" />
     <Compile Include="SynchronizedInput.cs" />
+    <Compile Include="TextChildPattern.cs" />
     <Compile Include="UiaCoreProviderApi.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="MultipleViewPattern.cs" />
@@ -84,7 +114,16 @@
     <Compile Include="WindowPattern.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CustomInterop.UIAutomationClient.il" />
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

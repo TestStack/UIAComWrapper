@@ -1,7 +1,8 @@
-﻿// (c) Copyright Michael Bernstein, 2010.
+// (c) Copyright Microsoft, 2012.
 // This source is subject to the Microsoft Permissive License.
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // All other rights reserved.
+
 
 using System;
 using System.Runtime.InteropServices;
@@ -36,7 +37,6 @@ namespace System.Windows.Automation.Providers
         UseComThreading = 32,
     }
 
-  
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [Guid("159bc72c-4ad3-485e-9637-d7052edf0146")]
     [ComVisible(true)]
@@ -351,12 +351,123 @@ namespace System.Windows.Automation.Providers
         void Realize();
     }
 
- 
+    // New for Windows 8
+    //
 
- 
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("3AD86EBD-F5EF-483D-BB18-B1042A475D64")]
+    [ComVisible(true)]
+    public interface IObjectModelProvider
+    {
+        object GetUnderlyingObjectModel();
+    }
 
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("F95C7E80-BD63-4601-9782-445EBFF011FC")]
+    [ComVisible(true)]
+    public interface IAnnotationProvider
+    {
+        AnnotationType AnnotationTypeId { get; }
+        string AnnotationTypeName { get; }
+        string Author { get; }
+        string DateTime { get; }
+        IRawElementProviderSimple Target { get; }
+    }
 
- 
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("19B6B649-F5D7-4A6D-BDCB-129252BE588A")]
+    [ComVisible(true)]
+    public interface IStylesProvider
+    {
+        StyleId StyleId { get; }
+        string StyleName { get; }
+        int FillColor { get; }
+        string FillPatternStyle { get; }
+        string Shape { get; }
+        int FillPatternColor { get; }
+        string ExtendedProperties { get; }
+    }
+
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("6F6B5D35-5525-4F80-B758-85473832FFC7")]
+    [ComVisible(true)]
+    public interface ISpreadsheetProvider
+    {
+        IRawElementProviderSimple GetItemByName(string name);
+    }
+
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("EAED4660-7B3D-4879-A2E6-365CE603F3D0")]
+    [ComVisible(true)]
+    public interface ISpreadsheetItemProvider
+    {
+        string Formula { get; }
+        IRawElementProviderSimple[] GetAnnotationObjects();
+        AnnotationType[] GetAnnotationTypes();
+    }
+
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("4758742F-7AC2-460C-BC48-09FC09308A93")]
+    [ComVisible(true)]
+    public interface ITransformProvider2 : ITransformProvider
+    {
+        new void Move(double x, double y);
+        new void Resize(double width, double height);
+        new void Rotate(double degrees);
+        new bool CanMove { [return: MarshalAs(UnmanagedType.Bool)] get; }
+        new bool CanResize { [return: MarshalAs(UnmanagedType.Bool)] get; }
+        new bool CanRotate { [return: MarshalAs(UnmanagedType.Bool)] get; }
+        void Zoom(double zoom);
+        bool CanZoom { [return: MarshalAs(UnmanagedType.Bool)] get; }
+        double ZoomLevel { get; }
+        double ZoomMinimum { get; }
+        double ZoomMaximum { get; }
+        void ZoomByUnit(ZoomUnit zoomUnit);
+    }
+
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("0DC5E6ED-3E16-4BF1-8F9A-A979878BC195")]
+    [ComVisible(true)]
+    public interface ITextProvider2 : ITextProvider
+    {
+        new ITextRangeProvider[] GetSelection();
+        new ITextRangeProvider[] GetVisibleRanges();
+        new ITextRangeProvider RangeFromChild(IRawElementProviderSimple childElement);
+        new ITextRangeProvider RangeFromPoint(Point screenLocation);
+        new ITextRangeProvider DocumentRange { get; }
+        new SupportedTextSelection SupportedTextSelection { get; }
+        ITextRangeProvider RangeFromAnnotation(IRawElementProviderSimple annotation);
+        ITextRangeProvider GetCaretRange([MarshalAs(UnmanagedType.Bool)] out bool isActive);
+    }
+
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("4C2DE2B9-C88F-4F88-A111-F1D336B7D1A9")]
+    [ComVisible(true)]
+    public interface ITextChildProvider
+    {
+        IRawElementProviderSimple TextContainer { get; }
+        ITextRangeProvider TextRange { get; }
+    }
+
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("6AA7BBBB-7FF9-497D-904F-D20B897929D8")]
+    [ComVisible(true)]
+    public interface IDragProvider
+    {
+        bool IsGrabbed { [return: MarshalAs(UnmanagedType.Bool)] get; }
+        string DropEffect { get; }
+        string[] DropEffects { get; }
+        IRawElementProviderSimple[] GetGrabbedItems();
+    }
+
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("BAE82BFD-358A-481C-85A0-D8B4D90A5D61")]
+    [ComVisible(true)]
+    public interface IDropTargetProvider
+    {
+        string DropTargetEffect { get; }
+        string[] DropTargetEffects { get; }
+    }
 
 
  

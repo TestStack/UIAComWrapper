@@ -1,7 +1,8 @@
-﻿// (c) Copyright Michael Bernstein, 2009.
+// (c) Copyright Microsoft, 2012.
 // This source is subject to the Microsoft Permissive License.
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // All other rights reserved.
+
 
 using System;
 using UIAComWrapperInternal;
@@ -10,8 +11,8 @@ namespace System.Windows.Automation
 {
     public static class Automation
     {
-        
-        private static readonly UIAutomationClient.IUIAutomation factory = new UIAutomationClient.CUIAutomationClass();
+
+        private static UIAutomationClient.IUIAutomation factory = null;
         public static readonly Condition ContentViewCondition = Condition.Wrap(Factory.ContentViewCondition);
         public static readonly Condition ControlViewCondition = Condition.Wrap(Factory.ControlViewCondition);
         public static readonly Condition RawViewCondition = Condition.Wrap(Factory.RawViewCondition);        
@@ -26,8 +27,40 @@ namespace System.Windows.Automation
         {
             get
             {
+                // Try CUIAutomation8
+                if (factory == null)
+                {
+                    try
+                    {
+                        factory = new UIAutomationClient.CUIAutomation8Class();
+                    }
+                    catch (System.Runtime.InteropServices.COMException)
+                    {
+                    }
+                }
+
+                // Fall back to CUIAutomation
+                if (factory == null)
+                {
+                    factory = new UIAutomationClient.CUIAutomationClass();
+                }
+
                 return factory;
             }
+        }
+
+        internal static UIAutomationClient.IUIAutomation2 Factory2
+        {
+            get
+            {
+                UIAutomationClient.IUIAutomation2 factory2 = Factory as UIAutomationClient.IUIAutomation2;
+                if (factory2 == null)
+                {
+                    throw new NotImplementedException("Operation is not available without IUIAutomation2 support on OS");
+                }
+                return factory2;
+            }
+
         }
 
         public static void AddAutomationEventHandler(AutomationEvent eventId, AutomationElement element, TreeScope scope, AutomationEventHandler eventHandler)
@@ -254,6 +287,49 @@ namespace System.Windows.Automation
             catch (System.Runtime.InteropServices.COMException e)
             {
                 Exception newEx; if (Utility.ConvertException(e, out newEx)) { throw newEx; } else { throw; }
+            }
+        }
+
+        // 
+        // Windows 8 extensions
+        //
+
+        public static bool AutoSetFocus
+        {
+            get
+            {
+                return (Factory2.AutoSetFocus != 0);                
+            }
+
+            set
+            {
+                Factory2.AutoSetFocus = (value) ? 1 : 0;
+            }
+        }
+
+        public static uint ConnectionTimeout
+        {
+            get
+            {
+                return Factory2.ConnectionTimeout;
+            }
+
+            set
+            {
+                Factory2.ConnectionTimeout = value;
+            }
+        }
+
+        public static uint TransactionTimeout
+        {
+            get
+            {
+                return Factory2.TransactionTimeout;
+            }
+
+            set
+            {
+                Factory2.TransactionTimeout = value;
             }
         }
     }
