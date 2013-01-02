@@ -6,6 +6,7 @@
 
 using System;
 using UIAComWrapperInternal;
+using UIAutomationClient;
 
 namespace System.Windows.Automation
 {
@@ -32,7 +33,7 @@ namespace System.Windows.Automation
                 {
                     try
                     {
-                        factory = new UIAutomationClient.CUIAutomation8Class();
+                        factory = new CUIAutomation8();
                     }
                     catch (System.Runtime.InteropServices.COMException)
                     {
@@ -42,7 +43,7 @@ namespace System.Windows.Automation
                 // Fall back to CUIAutomation
                 if (factory == null)
                 {
-                    factory = new UIAutomationClient.CUIAutomationClass();
+                    factory = new CUIAutomation();
                 }
 
                 return factory;

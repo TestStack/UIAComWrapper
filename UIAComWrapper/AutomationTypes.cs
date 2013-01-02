@@ -6,10 +6,12 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Resources;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using UIAComWrapper;
 using UIAComWrapperInternal;
 
 namespace System.Windows.Automation
@@ -702,7 +704,6 @@ namespace System.Windows.Automation
         public static readonly ControlType Tree = Register(AutomationIdentifierGuids.Tree_Control, "ControlType.Tree");
         public static readonly ControlType TreeItem = Register(AutomationIdentifierGuids.TreeItem_Control, "ControlType.TreeItem");
         public static readonly ControlType Window = Register(AutomationIdentifierGuids.Window_Control, "ControlType.Window", new AutomationPattern[][] { new AutomationPattern[] { TransformPatternIdentifiers.Pattern }, new AutomationPattern[] { WindowPatternIdentifiers.Pattern } });
-
         
         internal ControlType(int id, Guid guid, string programmaticName)
             : base(UiaCoreIds.AutomationIdType.ControlType, id, guid, programmaticName)
@@ -762,10 +763,7 @@ namespace System.Windows.Automation
         
         public string LocalizedControlType
         {
-            get
-            {
-                throw new NotImplementedException("UI Automation COM API does not have a matching method");
-            }
+            get { return StringTable.ResourceManager.GetString(ProgrammaticName.Replace(".", string.Empty)); }
         }
     }
 

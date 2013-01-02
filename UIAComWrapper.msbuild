@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build;Publish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Root>$(MSBuildProjectDirectory)\</Root>
+    <Platform Condition="$(Platform) == ''">Any CPU</Platform>
+    <Configuration Condition="$(Configuration) == ''">Release</Configuration>
+    <MSBuildCommunityTasksPath>$(Root)tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+
+  <Target Name="Cleanup">
+    <Error Condition="$(Root) == ''" Text="Root variable must be defined" />
+
+    <!-- Diagnostics -->
+    <Message Text="Diagnostics:"/>
+    <Message Text="Project root:    $(Root)" />
+    <Message Text="Drop path:       build\Artifacts" />
+
+    <!-- Clean up -->
+    <ItemGroup>
+      <FilesToDelete Include="$(Root)**\bin\**\*.*" />
+      <FilesToDelete Include="$(Root)**\obj\**\*.*" />
+      <FilesToDelete Include="$(Root)build\Artifacts\**\*.*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <Delete Files="$(Root)build\Artifacts" />
+  </Target>
+  
+  <Target Name="Build" DependsOnTargets="Cleanup">
+    <MSBuild Projects="$(Root)UIAComWrapper.sln" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+  </Target>
+
+  <Target Name="Publish">
+    <PropertyGroup>
+      <Version Condition="'$(Version)' == ''">1.0.0.0</Version>
+    </PropertyGroup>
+    <MakeDir Directories="$(Root)build\Artifacts" />
+    <Exec Command="$(Root).nuget\nuget.exe pack $(Root)UIAComWrapper\UIAComWrapper.nuspec -Version $(Version) -OutputDir $(Root)build\Artifacts -BasePath $(Root)UIAComWrapper\bin\$(Configuration)" />
+  </Target>
+</Project>

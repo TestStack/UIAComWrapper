@@ -75,7 +75,6 @@ namespace System.Windows.Automation
                 Exception newEx; if (Utility.ConvertException(e, out newEx)) { throw newEx; } else { throw; }
             }
         }
-
         
         public WindowPatternInformation Cached
         {
@@ -93,8 +92,6 @@ namespace System.Windows.Automation
                 return new WindowPatternInformation(this._el, false);
             }
         }
-
-
         
         [StructLayout(LayoutKind.Sequential)]
         public struct WindowPatternInformation

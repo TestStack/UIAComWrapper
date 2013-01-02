@@ -52,7 +52,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Interop.UIAutomationClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -61,6 +63,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnnotationPattern.cs" />
@@ -83,15 +86,16 @@
     <Compile Include="InternalTypes.cs" />
     <Compile Include="InvokePattern.cs" />
     <Compile Include="AutomationInteropProvider.cs" />
-    <Compile Include="Key.cs" />
     <Compile Include="KeyInterop.cs" />
     <Compile Include="LegacyIAccessiblePattern.cs" />
     <Compile Include="ObjectModelPattern.cs" />
-    <Compile Include="Point.cs" />
     <Compile Include="ProviderInterfaces.cs" />
-    <Compile Include="Rect.cs" />
-    <Compile Include="Size.cs" />
     <Compile Include="SpreadsheetPattern.cs" />
+    <Compile Include="StringTable.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringTable.resx</DependentUpon>
+    </Compile>
     <Compile Include="StylesPattern.cs" />
     <Compile Include="SynchronizedInput.cs" />
     <Compile Include="TextChildPattern.cs" />
@@ -123,6 +127,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StringTable.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StringTable.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UIAComWrapper.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
