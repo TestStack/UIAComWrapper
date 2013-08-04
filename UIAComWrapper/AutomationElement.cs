@@ -363,8 +363,8 @@ namespace System.Windows.Automation
 
         public AutomationPattern[] GetSupportedPatterns()
         {
-            Array rawPatternIds;
-            Array rawPatternNames;
+            int[] rawPatternIds;
+            string[] rawPatternNames;
             try
             {
                 Automation.Factory.PollForPotentialSupportedPatterns(this._obj, out rawPatternIds, out rawPatternNames);
@@ -392,8 +392,8 @@ namespace System.Windows.Automation
 
         public AutomationProperty[] GetSupportedProperties()
         {
-            Array rawPropertyIds;
-            Array rawPropertyNames;
+            int[] rawPropertyIds;
+            string[] rawPropertyNames;
             try
             {
                 Automation.Factory.PollForPotentialSupportedProperties(this._obj, out rawPropertyIds, out rawPropertyNames);

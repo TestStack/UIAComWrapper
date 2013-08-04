@@ -6,12 +6,13 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Windows.Automation.Text;
 using UIAComWrapperInternal;
-
 // Provider interfaces.
 // IRawElementProviderSimple is defined in the interop DLL,
 // since the Client code refers to it.  Everything else is here.
+using UIAutomationClient;
+using TextPatternRangeEndpoint = System.Windows.Automation.Text.TextPatternRangeEndpoint;
+using TextUnit = System.Windows.Automation.Text.TextUnit;
 
 namespace System.Windows.Automation.Providers
 {

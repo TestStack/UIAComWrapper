@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Automation.Providers;
 using UIAComWrapperInternal;
+using UIAutomationClient;
 
 namespace System.Windows.Automation
 {

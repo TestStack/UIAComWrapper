@@ -8,6 +8,7 @@ using System;
 using System.Windows.Automation;
 using System.Windows.Automation.Providers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UIAutomationClient;
 
 namespace UIAComWrapperTests
 {
@@ -235,37 +236,6 @@ namespace UIAComWrapperTests
 
                 // Validate that it is ours
                 Assert.AreEqual(SampleButtonProvider.ButtonName, startButton.Current.Name);
-            }
-            finally
-            {
-                // Restore the status quo ante
-                ClientSettings.RegisterClientSideProviders(new ClientSideProviderDescription[0]);
-            }
-        }
-
-
-        [TestMethod]
-        public void TestImageMismatch()
-        {
-            // Create the provider
-            ClientSideProviderDescription provider = new ClientSideProviderDescription(
-                new ClientSideProviderFactoryCallback(
-                    SampleButtonProvider.ButtonFactory),
-                    "Shell_TrayWnd",
-                    "NOTEPAD.EXE",
-                    ClientSideProviderMatchIndicator.None);
-            ClientSideProviderDescription[] providers = new ClientSideProviderDescription[1] { provider };
-
-            try
-            {
-                // Register it
-                ClientSettings.RegisterClientSideProviders(providers);
-
-                // Get the overridden element
-                AutomationElement startButton = AutomationElement.FromHandle(this.startButtonHwnd);
-
-                // Validate that it is not ours
-                Assert.AreNotEqual(SampleButtonProvider.ButtonName, startButton.Current.Name);
             }
             finally
             {
