@@ -15,5 +15,6 @@
   <files>
     <file src="UIAComWrapper.dll" target="lib\net40" />
     <file src="Interop.UIAutomationClient.dll" target="lib\net40" />
+    <file src="install.ps1" target="tools" />
   </files>
 </package>

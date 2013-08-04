@@ -141,6 +141,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="install.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="UIAComWrapper.nuspec" />
     <None Include="UIAComWrapper.snk" />
   </ItemGroup>
