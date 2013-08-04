@@ -8,6 +8,9 @@ using System;
 using System.Windows.Automation;
 using System.Windows.Automation.Providers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UIAutomationClient;
+using SupportedTextSelection = System.Windows.Automation.SupportedTextSelection;
+using ZoomUnit = System.Windows.Automation.ZoomUnit;
 
 namespace UIAComWrapperTests
 {

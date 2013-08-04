@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build;Publish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Test;Publish" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Root>$(MSBuildProjectDirectory)\</Root>
     <Platform Condition="$(Platform) == ''">Any CPU</Platform>
-    <Configuration Condition="$(Configuration) == ''">Release</Configuration>
+    <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
     <MSBuildCommunityTasksPath>$(Root)tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
   </PropertyGroup>
 
@@ -29,6 +29,21 @@
     <MSBuild Projects="$(Root)UIAComWrapper.sln" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
   </Target>
 
+  <Target Name="Test" DependsOnTargets="Build">
+    <ItemGroup>
+      <TestAssembly Include="$(Root)UIAComWrapperTests\bin\$(Configuration)\UIAComWrapperTests.dll"/>
+      <TestResults Include="$(Root)UIAComWrapperTests\bin\$(Configuration)\UIAComWrapperTests.trx"/>
+    </ItemGroup>
+
+    <PropertyGroup >
+      <VisualStudioDir>C:\Program Files (x86)\Microsoft Visual Studio 12.0\</VisualStudioDir>
+      <MSTest>$(VisualStudioDir)Common7\IDE\MSTest.exe</MSTest>
+    </PropertyGroup>
+
+    <Exec Command='"$(MSTest)" /testcontainer:@(TestAssembly) /resultsfile:@(TestResults)'/>
+    <Message Text='##teamcity[importData type="mstest" path="@(TestResults)"]'/>
+  </Target>
+  
   <Target Name="Publish">
     <PropertyGroup>
       <Version Condition="'$(Version)' == ''">1.0.0.0</Version>
