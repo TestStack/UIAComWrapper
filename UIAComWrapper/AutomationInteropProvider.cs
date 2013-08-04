@@ -8,6 +8,7 @@
 using System;
 using System.Runtime.InteropServices;
 using UIAComWrapperInternal;
+using UIAutomationClient;
 
 namespace System.Windows.Automation.Providers
 {
