@@ -120,7 +120,7 @@ namespace System.Windows.Automation
             this._obj = obj;
         }
 
-        internal static AutomationElement Wrap(UIAutomationClient.IUIAutomationElement obj)
+        public static AutomationElement Wrap(UIAutomationClient.IUIAutomationElement obj)
         {
             return (obj == null) ? null : new AutomationElement(obj);
         }
