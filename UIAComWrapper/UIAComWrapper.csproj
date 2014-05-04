@@ -91,7 +91,6 @@
     <Compile Include="InternalTypes.cs" />
     <Compile Include="InvokePattern.cs" />
     <Compile Include="AutomationInteropProvider.cs" />
-    <Compile Include="KeyInterop.cs" />
     <Compile Include="LegacyIAccessiblePattern.cs" />
     <Compile Include="ObjectModelPattern.cs" />
     <Compile Include="ProviderInterfaces.cs" />
