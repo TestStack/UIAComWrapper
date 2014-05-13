@@ -519,7 +519,7 @@ namespace System.Windows.Automation
             }
             lock (_identifierDirectory)
             {
-                AutomationIdentifier identifier = (AutomationIdentifier)_identifierDirectory[guid];
+                AutomationIdentifier identifier = (AutomationIdentifier)_identifierDirectory[id];
                 if (identifier == null)
                 {
                     switch (type)
