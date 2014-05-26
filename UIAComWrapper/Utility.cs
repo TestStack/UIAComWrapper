@@ -170,7 +170,8 @@ namespace UIAComWrapperInternal
             PatternTypeInfo info;
             if (!Schema.GetPatternInfo(pattern, out info))
             {
-                throw new ArgumentException("Unsupported pattern");
+                // if we know about the pattern - return our wrapper, otherwise let the pattern itself handle issues if any
+                return nativePattern;
             }
             if (info.ClientSideWrapper == null)
             {

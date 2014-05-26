@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
 using System.Runtime.InteropServices;
@@ -454,10 +455,32 @@ namespace System.Windows.Automation
         
         private Guid _guid;
         private int _id;
-        private static Hashtable _identifierDirectory = new Hashtable(200, 1f);
+        private static Dictionary<int, AutomationIdentifier> _propertyIdentifierDirectory = new Dictionary<int, AutomationIdentifier>();
+        private static Dictionary<int, AutomationIdentifier> _patternIdentifierDirectory = new Dictionary<int, AutomationIdentifier>();
+        private static Dictionary<int, AutomationIdentifier> _eventIdentifierDirectory = new Dictionary<int, AutomationIdentifier>();
+        private static Dictionary<int, AutomationIdentifier> _controlTypeIdentifierDirectory = new Dictionary<int, AutomationIdentifier>();
+        private static Dictionary<int, AutomationIdentifier> _textAttributeIdentifierDirectory = new Dictionary<int, AutomationIdentifier>();
         private string _programmaticName;
         private UiaCoreIds.AutomationIdType _type;
 
+        private static Dictionary<int, AutomationIdentifier> GetIdentifierDictionaryForType(UiaCoreIds.AutomationIdType type)
+        {
+            switch (type)
+            {
+                case UiaCoreIds.AutomationIdType.Property:
+                    return _propertyIdentifierDirectory;
+                case UiaCoreIds.AutomationIdType.Pattern:
+                    return _patternIdentifierDirectory;
+                case UiaCoreIds.AutomationIdType.Event:
+                    return _eventIdentifierDirectory;
+                case UiaCoreIds.AutomationIdType.ControlType:
+                    return _controlTypeIdentifierDirectory;
+                case UiaCoreIds.AutomationIdType.TextAttribute:
+                    return _textAttributeIdentifierDirectory;
+                default:
+                    throw new ArgumentOutOfRangeException("type");
+            }
+        }
         
         internal AutomationIdentifier(UiaCoreIds.AutomationIdType type, int id, Guid guid, string programmaticName)
         {
@@ -495,15 +518,13 @@ namespace System.Windows.Automation
         internal static AutomationIdentifier LookupById(UiaCoreIds.AutomationIdType type, int id)
         {
             AutomationIdentifier identifier;
-            lock (_identifierDirectory)
+            bool found;
+            var directory = GetIdentifierDictionaryForType(type);
+            lock (directory)
             {
-                identifier = (AutomationIdentifier)_identifierDirectory[id];
+                found = directory.TryGetValue(id, out identifier);
             }
-            if (identifier == null)
-            {
-                return null;
-            }
-            if (identifier._type != type)
+            if (!found || identifier == null || identifier._type != type)
             {
                 return null;
             }
@@ -517,38 +538,37 @@ namespace System.Windows.Automation
             {
                 return null;
             }
-            lock (_identifierDirectory)
+            var directory = GetIdentifierDictionaryForType(type);
+            lock (directory)
             {
-                AutomationIdentifier identifier = (AutomationIdentifier)_identifierDirectory[guid];
-                if (identifier == null)
+                AutomationIdentifier identifier;
+                if (directory.TryGetValue(id, out identifier)) return identifier;
+                switch (type)
                 {
-                    switch (type)
-                    {
-                        case UiaCoreIds.AutomationIdType.Property:
-                            identifier = new AutomationProperty(id, guid, programmaticName);
-                            break;
+                    case UiaCoreIds.AutomationIdType.Property:
+                        identifier = new AutomationProperty(id, guid, programmaticName);
+                        break;
 
-                        case UiaCoreIds.AutomationIdType.Pattern:
-                            identifier = new AutomationPattern(id, guid, programmaticName);
-                            break;
+                    case UiaCoreIds.AutomationIdType.Pattern:
+                        identifier = new AutomationPattern(id, guid, programmaticName);
+                        break;
 
-                        case UiaCoreIds.AutomationIdType.Event:
-                            identifier = new AutomationEvent(id, guid, programmaticName);
-                            break;
+                    case UiaCoreIds.AutomationIdType.Event:
+                        identifier = new AutomationEvent(id, guid, programmaticName);
+                        break;
 
-                        case UiaCoreIds.AutomationIdType.ControlType:
-                            identifier = new ControlType(id, guid, programmaticName);
-                            break;
+                    case UiaCoreIds.AutomationIdType.ControlType:
+                        identifier = new ControlType(id, guid, programmaticName);
+                        break;
 
-                        case UiaCoreIds.AutomationIdType.TextAttribute:
-                            identifier = new AutomationTextAttribute(id, guid, programmaticName);
-                            break;
+                    case UiaCoreIds.AutomationIdType.TextAttribute:
+                        identifier = new AutomationTextAttribute(id, guid, programmaticName);
+                        break;
 
-                        default:
-                            throw new InvalidOperationException("Invalid type specified for AutomationIdentifier");
-                    }
-                    _identifierDirectory[id] = identifier;
+                    default:
+                        throw new InvalidOperationException("Invalid type specified for AutomationIdentifier");
                 }
+                directory[id] = identifier;
                 return identifier;
             }
         }
