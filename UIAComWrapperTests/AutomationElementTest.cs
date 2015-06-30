@@ -142,7 +142,7 @@ namespace UIAComWrapperTests
         ///A test for FromHandle
         ///</summary>
         [TestMethod()]
-        public void FromHandleTest()f
+        public void FromHandleTest()
         {
             int rootHwnd = (int)AutomationElement.RootElement.GetCurrentPropertyValue(
                 AutomationElement.NativeWindowHandleProperty);
