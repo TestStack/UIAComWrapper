@@ -109,9 +109,21 @@ namespace UIAComWrapperTests
         [TestMethod()]
         public void FocusedElementTest()
         {
-            AutomationElement actual = AutomationElement.FocusedElement;
-            Assert.IsNotNull(actual);
-            Assert.IsTrue(actual.Current.HasKeyboardFocus);
+            var actuals = 
+                AutomationElement.RootElement.FindAll(
+                    TreeScope.Children,
+                    new PropertyCondition(AutomationElement.IsKeyboardFocusableProperty, true));
+
+            foreach (AutomationElement actual in actuals)
+            {
+                Assert.IsNotNull(actual);
+                actual.SetFocus();
+
+                Assert.IsTrue(actual.Current.IsKeyboardFocusable);
+                if (actual.Current.HasKeyboardFocus) return;
+            }
+
+            Assert.Fail();
         }
 
         /// <summary>
