@@ -584,6 +584,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void AnnotationPatternTest()
         {
+            CheckWin8();
             // Get the annotation pattern
             object patternAsObj;
             AnnotationPattern pattern;
@@ -602,6 +603,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void StylesPatternTest()
         {
+            CheckWin8();
             // Get the  pattern
             StylesPattern pattern = (StylesPattern)mockObject.GetCurrentPattern(StylesPattern.Pattern);
 
@@ -618,6 +620,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void SpreadsheetPatternTest()
         {
+            CheckWin8();
             // Get the  pattern
             SpreadsheetPattern pattern = (SpreadsheetPattern)mockObject.GetCurrentPattern(SpreadsheetPattern.Pattern);
 
@@ -632,6 +635,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void SpreadsheetItemPatternTest()
         {
+            CheckWin8();
             // Get the  pattern
             SpreadsheetItemPattern pattern = (SpreadsheetItemPattern)mockObject.GetCurrentPattern(SpreadsheetItemPattern.Pattern);
 
@@ -652,6 +656,7 @@ namespace UIAComWrapperTests
         // Not sure why this one is not working -- it crashes on call into the mock Transform2
         public void TransformPattern2Test()
         {
+            CheckWin8();
             // Get the  pattern
             System.Diagnostics.Debug.WriteLine(String.Format("Pattern ID is {0}", TransformPattern2.Pattern.Id));
             TransformPattern2 pattern = (TransformPattern2)mockObject.GetCurrentPattern(TransformPattern2.Pattern);
@@ -684,6 +689,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void DragPatternTest()
         {
+            CheckWin8();
             // Get the  pattern
             DragPattern pattern = (DragPattern)mockObject.GetCurrentPattern(DragPattern.Pattern);
 
@@ -702,6 +708,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void DropTargetPatternTest()
         {
+            CheckWin8();
             // Get the  pattern
             DropTargetPattern pattern = (DropTargetPattern)mockObject.GetCurrentPattern(DropTargetPattern.Pattern);
 
@@ -715,6 +722,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void TextPattern2Test()
         {
+            CheckWin8();
             // Get the  pattern
             TextPattern2 pattern = (TextPattern2)mockObject.GetCurrentPattern(TextPattern2.Pattern);
 
@@ -746,6 +754,7 @@ namespace UIAComWrapperTests
         [TestMethod]
         public void TextChildPatternTest()
         {
+            CheckWin8();
             // Get the  pattern
             TextChildPattern pattern = (TextChildPattern)mockObject.GetCurrentPattern(TextChildPattern.Pattern);
 
@@ -756,6 +765,13 @@ namespace UIAComWrapperTests
             childRange = pattern.TextRange;
             Assert.IsNotNull(childRange);
             Assert.AreEqual("fromChild", childRange.GetText(-1));
+        }
+
+        private void CheckWin8()
+        {
+            var win8version = new Version(6, 2, 9200, 0);
+            if (Environment.OSVersion.Version < win8version) 
+                Assert.Inconclusive("These features only available on Windows 8, can't test them here");
         }
     }
 }
