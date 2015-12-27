@@ -1,13 +1,7 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System.Windows.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Windows;
+using NUnit.Framework;
 
 namespace UIAComWrapperTests
 {
@@ -17,59 +11,9 @@ namespace UIAComWrapperTests
     ///This is a test class for AutomationElementTest and is intended
     ///to contain all AutomationElementTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class AutomationElementTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
         public static AutomationElement GetStartButton()
         {
             AndCondition cond = new AndCondition(
@@ -93,7 +37,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for RootElement
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void RootElementTest()
         {
             AutomationElement actual;
@@ -106,7 +50,7 @@ namespace UIAComWrapperTests
         /// <summary>
         /// Test retrieval of the focused element
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void FocusedElementTest()
         {
             AutomationElement actual = AutomationElement.FocusedElement;
@@ -117,7 +61,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for FromPoint
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void FromPointTest()
         {
             Point pt = new Point(); 
@@ -129,7 +73,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for FromHandle
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void FromHandleTest()
         {
             int rootHwnd = (int)AutomationElement.RootElement.GetCurrentPropertyValue(
@@ -141,7 +85,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void EqualsTest()
         {
             Point pt = new Point();
@@ -155,7 +99,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for FindFirst
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void FindFirstTest()
         {
             // Find a child
@@ -176,7 +120,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for FindAll
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void FindAllTest()
         {
             // Find all children
@@ -200,7 +144,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GetClickablePointTest()
         {
             AutomationElement clock = GetClock();
@@ -209,7 +153,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(point.Y > 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetRuntimeIdTest()
         {
             int[] runtimeId = AutomationElement.RootElement.GetRuntimeId();
@@ -217,7 +161,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(runtimeId.Length > 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetUpdatedCacheTest()
         {
             AutomationElement elem = AutomationElement.RootElement;
@@ -239,7 +183,7 @@ namespace UIAComWrapperTests
         /// <summary>
         /// Simple test to invoke the start menu and test GetCurrentPattern
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void GetCurrentPatternTest()
         {
             LegacyIAccessiblePattern pattern = (LegacyIAccessiblePattern)GetTaskbar().GetCurrentPattern(LegacyIAccessiblePattern.Pattern);
@@ -249,7 +193,7 @@ namespace UIAComWrapperTests
         /// <summary>
         /// Simple test to invoke the start menu and test GetCachedPattern
         /// </summary>
-        [TestMethod()]
+        [Test]
         public void GetCachedPatternTest()
         {
             CacheRequest req = new CacheRequest();
@@ -261,7 +205,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GetSupportedTest()
         {
             AutomationProperty[] properties = GetTaskbar().GetSupportedProperties();
@@ -287,7 +231,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CachedRelationshipTest()
         {
             CacheRequest req = new CacheRequest();
@@ -306,7 +250,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void NotSupportedValueTest()
         {
             AutomationElement taskbar = GetTaskbar();
@@ -315,7 +259,7 @@ namespace UIAComWrapperTests
             Assert.AreEqual(value, AutomationElement.NotSupported);
         }
 
-        [TestMethod()]
+        [Test]
         public void BoundaryRectTest()
         {
             System.Windows.Rect boundingRect = GetTaskbar().Current.BoundingRectangle;
@@ -323,7 +267,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(boundingRect.Height > 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void CompareTest()
         {
             AutomationElement el1 = GetTaskbar();
@@ -335,7 +279,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(Automation.Compare(el1.GetRuntimeId(), el2.GetRuntimeId()));
         }
 
-        [TestMethod()]
+        [Test]
         public void ElementNotAvailableTest()
         {
             AutomationElement element;
@@ -346,11 +290,11 @@ namespace UIAComWrapperTests
             }
             catch (Exception e)
             {
-                Assert.IsInstanceOfType(e, typeof(ElementNotAvailableException));
+                Assert.IsInstanceOf<ElementNotAvailableException>(e);
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ProviderDescriptionTest()
         {
             string description = (string)AutomationElement.RootElement.GetCurrentPropertyValue(AutomationElement.ProviderDescriptionProperty);

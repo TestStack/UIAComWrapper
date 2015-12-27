@@ -1,11 +1,5 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System.Windows.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UIAComWrapperTests
 {
@@ -13,62 +7,13 @@ namespace UIAComWrapperTests
     ///This is a test class for Conditions and is intended
     ///to contain all Conditions Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class ConditionTests
     {
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for AndCondition
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void AndConditionTest()
         {
             // Positive test
@@ -95,7 +40,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for GetConditions
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void OrConditionTest()
         {
             Condition condition = Condition.TrueCondition;
@@ -121,7 +66,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for NotCondition
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void NotConditionTest()
         {
             Condition condition = Condition.TrueCondition;
@@ -134,7 +79,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for PropertyCondition
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void PropertyConditionTest()
         {
             PropertyCondition cond1 = new PropertyCondition(
@@ -150,7 +95,7 @@ namespace UIAComWrapperTests
                 rect);
             Assert.IsNotNull(cond2);
             object value = cond2.Value;
-            Assert.IsInstanceOfType(value, typeof(double[]));
+            Assert.IsInstanceOf<double[]>(value);
             Assert.AreEqual(((double[])value).Length, 4);
             Assert.AreEqual(cond2.Property.ProgrammaticName, "AutomationElementIdentifiers.BoundingRectangleProperty");
 
@@ -159,7 +104,7 @@ namespace UIAComWrapperTests
                 new System.Windows.Point(0, 0));
             Assert.IsNotNull(cond3);
             value = cond3.Value;
-            Assert.IsInstanceOfType(value, typeof(double[]));
+            Assert.IsInstanceOf<double[]>(value);
             Assert.AreEqual(((double[])value).Length, 2);
             Assert.AreEqual(cond3.Property.ProgrammaticName, "AutomationElementIdentifiers.ClickablePointProperty");
 

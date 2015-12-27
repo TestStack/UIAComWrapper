@@ -1,14 +1,8 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UIAComWrapperTests
 {
@@ -16,60 +10,10 @@ namespace UIAComWrapperTests
     /// ScenarioTests: intended to contain tests that manipulate UI
     /// and are therefore less reliable than pure unit tests.
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class ScenarioTests
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-        [TestMethod()]
+        [Test]
         public void ExpandCollapsePatternTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
@@ -90,7 +34,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandCollapsePatternCachedTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
@@ -111,7 +55,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void NoClickablePointTest()
         {
             // Launch a notepad and position it
@@ -143,7 +87,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RangeValuePatternTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL main.cpl ,2"))
@@ -211,7 +155,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         [Ignore]
         public void TextPatternTest()
         {
@@ -266,7 +210,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void TogglePatternTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL main.cpl ,2"))
@@ -315,7 +259,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformPatternTest()
         {
             // Launch a notepad and position it
@@ -335,7 +279,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformPatternCachedTest()
         {
             using (AppHost host = new AppHost("notepad.exe", ""))
@@ -364,7 +308,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ValuePatternTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
@@ -380,7 +324,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ValuePatternCachedTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
@@ -406,7 +350,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void WindowPatternTest()
         {
             using (AppHost host = new AppHost("notepad.exe", ""))
@@ -421,7 +365,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void WindowPatternCachedTest()
         {
             using (AppHost host = new AppHost("notepad.exe", ""))
@@ -448,7 +392,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LegacyIAccessiblePatternTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
@@ -480,14 +424,14 @@ namespace UIAComWrapperTests
                     LegacyIAccessiblePattern acc = (LegacyIAccessiblePattern)tabCtrl.GetCurrentPattern(LegacyIAccessiblePattern.Pattern);
                     AutomationElement[] selection = acc.Current.GetSelection();
                     Assert.IsTrue(selection.Length > 0);
-                    Assert.IsInstanceOfType(selection[0], typeof(AutomationElement));
+                    Assert.IsInstanceOf<AutomationElement>(selection[0]);
                     Assert.AreEqual(ControlType.TabItem, selection[0].Current.ControlType);
                 }
 
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LegacyIAccessiblePatternCachedTest()
         {
             using (AppHost host = new AppHost("rundll32.exe", "shell32.dll,Control_RunDLL intl.cpl"))
@@ -529,7 +473,7 @@ namespace UIAComWrapperTests
                         LegacyIAccessiblePattern acc = (LegacyIAccessiblePattern)tabCtrl.GetCachedPattern(LegacyIAccessiblePattern.Pattern);
                         AutomationElement[] selection = acc.Cached.GetSelection();
                         Assert.IsTrue(selection.Length > 0);
-                        Assert.IsInstanceOfType(selection[0], typeof(AutomationElement));
+                        Assert.IsInstanceOf<AutomationElement>(selection[0]);
                         Assert.AreEqual(ControlType.TabItem, selection[0].Current.ControlType);
                     }
 
@@ -544,7 +488,7 @@ namespace UIAComWrapperTests
              ref Guid iid,
              [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object ppvObject);
 
-        [TestMethod()]
+        [Test]
         public void IAccessibleInterop()
         {
             // Get the clock

@@ -1,13 +1,7 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System;
 using System.Windows.Automation;
 using System.Windows.Automation.Providers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using UIAutomationClient;
 
 namespace UIAComWrapperTests
@@ -66,60 +60,20 @@ namespace UIAComWrapperTests
     /// <summary>
     /// Summary description for ClientSideProvidersTest
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class ClientSideProvidersTest
     {
-        public ClientSideProvidersTest()
-        {
-        }
-
-        private TestContext testContextInstance;
         private IntPtr startButtonHwnd;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        [TestInitialize()]
+        [SetUp]
         public void MyTestInitialize()
         {
             // Find the Start button, which will be our target
             AutomationElement trueStartButton = AutomationElementTest.GetTaskbar();
             this.startButtonHwnd = (IntPtr)trueStartButton.Current.NativeWindowHandle;
         }
-        
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
-        [TestMethod]
+        [Test]
         public void TestButtonClientSideProvider()
         {
             // Create the provider
@@ -154,7 +108,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestPartialNameMatch()
         {
             // Create the provider
@@ -184,7 +138,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestPartialMatchNotPermitted()
         {
             // Create the provider
@@ -214,7 +168,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestImageMatch()
         {
             // Create the provider

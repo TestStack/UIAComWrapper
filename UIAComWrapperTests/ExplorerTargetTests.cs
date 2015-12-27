@@ -1,72 +1,36 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System;
 using System.Windows.Automation;
-using System.Windows.Automation.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UIAComWrapperTests
 {
     /// <summary>
     /// Tests that use Explorer itself as a target
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class ExplorerTargetTests
     {
-        public ExplorerTargetTests()
-        {
-        }
-
-        private TestContext testContextInstance;
         private static ExplorerHost explorerHost;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-
-        // Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext)
+        [TestFixtureSetUp]
+        public static void MyClassInitialize()
         {
             ExplorerTargetTests.explorerHost = new ExplorerHost();
         }
 
-        // Use ClassCleanup to run code after all tests in a class have run
-        [ClassCleanup()]
+        [TestFixtureTearDown]
         public static void MyClassCleanup()
         {
             ((IDisposable)ExplorerTargetTests.explorerHost).Dispose();
         }
 
-        // Use TestInitialize to run code before running each test 
-        [TestInitialize()]
+        [SetUp]
         public void MyTestInitialize() 
         {
             ExplorerTargetTests.explorerHost.Element.SetFocus();
         }
-        
 
-        #endregion
-
-        [TestMethod()]
+        [Test]
         public void GridPatternTest()
         {
             AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
@@ -119,7 +83,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MultipleViewPatternTest()
         {
             CacheRequest req = new CacheRequest();
@@ -151,7 +115,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MultipleViewPatternCachedTest()
         {
             AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
@@ -175,7 +139,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(inSupportedViews);
         }
 
-        [TestMethod()]
+        [Test]
         public void TablePatternTest()
         {
             AutomationElement itemsView = ExplorerTargetTests.explorerHost.Element.FindFirst(TreeScope.Subtree,
@@ -198,7 +162,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(tableItem.Current.GetRowHeaderItems().Length == 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void TablePatternCachedTest()
         {
             CacheRequest req = new CacheRequest();
@@ -238,7 +202,7 @@ namespace UIAComWrapperTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TreeIterationTest()
         {
             TreeWalker walker = new TreeWalker(Automation.ControlViewCondition);
@@ -254,7 +218,7 @@ namespace UIAComWrapperTests
             Assert.AreEqual(startingElement, iter);
         }
 
-        [TestMethod()]
+        [Test]
         [Ignore]
         // Test is not working on Windows 8 due to changes in Explorer
         public void VirtualizedPatternTest()

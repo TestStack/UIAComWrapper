@@ -1,13 +1,7 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System;
 using System.Windows.Automation;
 using System.Windows.Automation.Providers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using UIAutomationClient;
 using SupportedTextSelection = System.Windows.Automation.SupportedTextSelection;
 using ZoomUnit = System.Windows.Automation.ZoomUnit;
@@ -513,47 +507,13 @@ namespace UIAComWrapperTests
     /// <summary>
     /// Summary description for ClientSideProvidersTest
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class MockPatternTests
     {
-        public MockPatternTests()
-        {
-        }
-
-        private TestContext testContextInstance;
         private IntPtr targetHwnd;
         private AutomationElement mockObject;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        [TestInitialize()]
+        [SetUp]
         public void MyTestInitialize()
         {
             // Find the taskbar, which will be our target
@@ -571,17 +531,14 @@ namespace UIAComWrapperTests
             Assert.IsNotNull(this.mockObject);
         }
 
-        // Use TestCleanup to run code after each test has run
-        [TestCleanup()]
+        [TearDown]
         public void MyTestCleanup() 
         {
             // Restore the status quo ante
             ClientSettings.RegisterClientSideProviders(new ClientSideProviderDescription[0]);
         }
-        
-        #endregion
 
-        [TestMethod]
+        [Test]
         public void AnnotationPatternTest()
         {
             CheckWin8();
@@ -600,7 +557,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(Automation.Compare(this.mockObject, pattern.Current.Target));
         }
 
-        [TestMethod]
+        [Test]
         public void StylesPatternTest()
         {
             CheckWin8();
@@ -617,7 +574,7 @@ namespace UIAComWrapperTests
             Assert.AreEqual("prop1=a;prop2=b", pattern.Current.ExtendedProperties);
         }
 
-        [TestMethod]
+        [Test]
         public void SpreadsheetPatternTest()
         {
             CheckWin8();
@@ -632,7 +589,7 @@ namespace UIAComWrapperTests
             Assert.IsNull(pattern.GetItemByName("secondary"));
         }
 
-        [TestMethod]
+        [Test]
         public void SpreadsheetItemPatternTest()
         {
             CheckWin8();
@@ -652,7 +609,7 @@ namespace UIAComWrapperTests
 
         }
 
-        [TestMethod]
+        [Test]
         // Not sure why this one is not working -- it crashes on call into the mock Transform2
         public void TransformPattern2Test()
         {
@@ -686,7 +643,7 @@ namespace UIAComWrapperTests
             Assert.AreEqual(1.75, pattern.Current.ZoomLevel);
         }
 
-        [TestMethod]
+        [Test]
         public void DragPatternTest()
         {
             CheckWin8();
@@ -705,7 +662,7 @@ namespace UIAComWrapperTests
             Assert.IsTrue(Automation.Compare(this.mockObject, grabbedItems[1]));
         }
 
-        [TestMethod]
+        [Test]
         public void DropTargetPatternTest()
         {
             CheckWin8();
@@ -719,7 +676,7 @@ namespace UIAComWrapperTests
             Assert.AreEqual("Move", pattern.Current.DropTargetEffects[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void TextPattern2Test()
         {
             CheckWin8();
@@ -751,7 +708,7 @@ namespace UIAComWrapperTests
             Assert.AreEqual("caret", caretRange.GetText(-1));
         }
 
-        [TestMethod]
+        [Test]
         public void TextChildPatternTest()
         {
             CheckWin8();

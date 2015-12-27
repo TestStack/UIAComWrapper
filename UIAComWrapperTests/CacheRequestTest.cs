@@ -1,11 +1,5 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System.Windows.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UIAComWrapperTests
 {
@@ -15,64 +9,13 @@ namespace UIAComWrapperTests
     ///This is a test class for CacheRequestTest and is intended
     ///to contain all CacheRequestTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class CacheRequestTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for TreeScope
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void TreeScopeTest()
         {
             CacheRequest target = new CacheRequest();
@@ -86,7 +29,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for TreeFilter
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void TreeFilterTest()
         {
             CacheRequest target = new CacheRequest();
@@ -102,7 +45,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for Current
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void CurrentTest()
         {
             // We expect the Current one at this point to be the Default one
@@ -124,7 +67,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for AutomationElementMode
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void AutomationElementModeTest()
         {
             CacheRequest target = new CacheRequest(); 
@@ -136,7 +79,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for Push and Pop
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void PushPopTest()
         {
             CacheRequest defaultCR = CacheRequest.Current;
@@ -166,7 +109,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for Clone
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             CacheRequest target = new CacheRequest();
@@ -179,7 +122,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for Add
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void AddTest()
         {
             CacheRequest target = new CacheRequest(); 
@@ -190,7 +133,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for Activate
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void ActivateTest()
         {
             CacheRequest target = new CacheRequest();

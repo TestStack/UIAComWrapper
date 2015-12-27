@@ -1,64 +1,19 @@
-// (c) Copyright Microsoft, 2012.
-// This source is subject to the Microsoft Permissive License.
-// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// All other rights reserved.
-
-
 using System.Windows.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections;
+using NUnit.Framework;
 
 namespace UIAComWrapperTests
 {
-    
-    
     /// <summary>
     ///This is a test class for AutomationElementCollectionTest and is intended
     ///to contain all AutomationElementCollectionTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class AutomationElementCollectionTest
     {
-
-
-        private TestContext testContextInstance;
         private AutomationElementCollection testColl;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        [TestInitialize()]
+        [SetUp]
         public void MyTestInitialize()
         {
             // Get all children of the desktop for our target collection
@@ -74,20 +29,11 @@ namespace UIAComWrapperTests
                 Assert.IsTrue(this.testColl.Count > 0);
             }
         }
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
 
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void ItemTest()
         {
             AutomationElement actual = this.testColl[0];
@@ -97,7 +43,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for Count
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void CountTest()
         {
             Assert.IsTrue(this.testColl.Count > 0);
@@ -106,7 +52,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for GetEnumerator
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void GetEnumeratorTest()
         {
             IEnumerator actual = this.testColl.GetEnumerator();
@@ -126,7 +72,7 @@ namespace UIAComWrapperTests
         /// <summary>
         ///A test for CopyTo
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void CopyToTest()
         {
             AutomationElement[] array = new AutomationElement[this.testColl.Count+1];
