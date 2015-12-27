@@ -28,8 +28,12 @@
   <Target Name="Build" DependsOnTargets="Cleanup">
     <MSBuild Projects="$(Root)UIAComWrapper.sln" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
   </Target>
+  
+  <Target Name="IndexSources" DependsOnTargets="Build">
+    <Exec Command='tools\GitLink\GitLink.exe $(Root) -u https://github.com/TestStack/UIAComWrapper -c $(Configuration)' />
+  </Target>
 
-  <Target Name="Publish">
+  <Target Name="Publish" DependsOnTargets="IndexSources">
     <PropertyGroup>
       <Version Condition="'$(Version)' == ''">1.0.0.0</Version>
     </PropertyGroup>
