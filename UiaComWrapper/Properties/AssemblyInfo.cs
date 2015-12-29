@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.14")]
+[assembly: AssemblyFileVersion("1.1.0.14")]
 
 [assembly: InternalsVisibleTo("UIAComWrapperTests, PublicKey=00240000048000009400000006020000002400005253413100040000010001002b12949bc42c9ceccdc8e98f99a849017c9f4ffd19d656191727a431f00bd283848493e5318e3dee94636edd27b08c59ee3d1d4e0948a197341eb3e238cc08660d23191faecf5dd9566e9c2b1ca4fd89ee04fb220ef096cc6b0f1f51a278cc37f9ffc0d89015032ef0ab6196c374b407e0e6ca4ece4b90e52bd636f22b9342ee")]

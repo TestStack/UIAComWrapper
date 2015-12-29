@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>UIAComWrapper</id>
-    <version>1.0.0.0</version>
+    <version>1.1.0.14</version>
     <title>UIAComWrapper</title>
     <authors>Michael Bernstein</authors>
     <owners>Michael Bernstein, Jake Ginnivan</owners>

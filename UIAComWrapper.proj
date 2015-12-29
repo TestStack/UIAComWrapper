@@ -35,7 +35,7 @@
 
   <Target Name="Publish" DependsOnTargets="IndexSources">
     <PropertyGroup>
-      <Version Condition="'$(Version)' == ''">1.0.0.0</Version>
+      <Version Condition="'$(Version)' == ''">1.1.0.14</Version>
     </PropertyGroup>
     <MakeDir Directories="$(Root)build\Artifacts" />
     <Exec Command="$(Root).nuget\nuget.exe pack $(Root)UIAComWrapper\UIAComWrapper.nuspec -Version $(Version) -OutputDir $(Root)build\Artifacts -BasePath $(Root)UIAComWrapper\bin\$(Configuration)" />
