@@ -7,6 +7,7 @@
     <authors>Michael Bernstein</authors>
     <owners>Michael Bernstein, Jake Ginnivan</owners>
     <projectUrl>https://github.com/TestStack/UIAComWrapper</projectUrl>
+    <licenseUrl>https://github.com/TestStack/UIAComWrapper/blob/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The UI Automation COM-to-.NET Adapter makes it possible to use the new Windows Automation API 3.0 COM interfaces, with their improved reliability and performance, while still using the same System.Windows.Automation classes as in earlier versions of UI Automation</description>
     <copyright>Copyright Michael Bernstein 2013</copyright>
