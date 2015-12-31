@@ -1,4 +1,5 @@
 install:
+  - choco install gitversion.portable -pre -y
   - choco install gitlink -y
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
 
@@ -13,11 +14,17 @@ platform:
 
 before_build:
   - nuget restore
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
 
 build_script:
   - cmd: msbuild UIAComWrapper.sln "/p:Configuration=%CONFIGURATION%;Platform=%PLATFORM%"
 
   - cmd: GitLink . -u https://github.com/TestStack/UIAComWrapper -c %CONFIGURATION%
+
+  - cmd: ECHO nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+  - cmd: nuget pack UiaComWrapper\UIAComWrapper.nuspec -version "%GitVersion_NuGetVersion%" -BasePath "UiaComWrapper\bin\%CONFIGURATION%"
+
+  - cmd: appveyor PushArtifact "UIAComWrapper.%GitVersion_NuGetVersion%.nupkg"
 
 cache:
   - packages -> **\packages.config
