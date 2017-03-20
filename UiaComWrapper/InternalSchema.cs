@@ -273,7 +273,15 @@ namespace UIAComWrapperInternal
             double x = numArray[0];
             double y = numArray[1];
             double width = numArray[2];
-            return new Rect(x, y, width, numArray[3]);
+            double height = numArray[3];
+
+            if (width < 0)
+                width = 0;
+
+            if (height < 0)
+                height = 0;
+
+            return new Rect(x, y, width, height);
         }
 
         private static object ConvertToRowOrColumnMajor(object value)
