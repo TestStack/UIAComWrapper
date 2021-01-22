@@ -8,6 +8,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Interop.UIAutomationClient;
+using UIAutomationClient = Interop.UIAutomationClient;
 using UIAComWrapperInternal;
 
 namespace System.Windows.Automation
@@ -596,7 +598,7 @@ namespace System.Windows.Automation
             {
                 try
                 {
-                    UIAutomationClient.IUIAutomationElement element =
+                    IUIAutomationElement element =
                         Automation.Factory.GetRootElementBuildCache(
                             CacheRequest.CurrentNativeCacheRequest);
                     return AutomationElement.Wrap(element);

@@ -10,6 +10,7 @@ using System.Collections;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Automation;
+using UIAutomationClient = Interop.UIAutomationClient;
 
 namespace UIAComWrapperInternal
 {

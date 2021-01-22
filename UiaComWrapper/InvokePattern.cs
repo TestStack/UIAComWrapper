@@ -8,6 +8,7 @@
 using System;
 using System.Diagnostics;
 using UIAComWrapperInternal;
+using UIAutomationClient = Interop.UIAutomationClient;
 
 namespace System.Windows.Automation
 {

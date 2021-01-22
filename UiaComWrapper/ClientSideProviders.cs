@@ -11,7 +11,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Automation.Providers;
 using UIAComWrapperInternal;
-using UIAutomationClient;
+using Interop.UIAutomationClient;
+using UIAutomationClient = Interop.UIAutomationClient;
 
 namespace System.Windows.Automation
 {
