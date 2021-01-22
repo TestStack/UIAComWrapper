@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using UIAComWrapperInternal;
+using UIAutomationClient = Interop.UIAutomationClient;
 
 namespace System.Windows.Automation.Text
 {

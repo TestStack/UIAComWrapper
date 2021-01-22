@@ -9,7 +9,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows.Automation.Providers;
-using UIAutomationClient;
+using Interop.UIAutomationClient;
 
 namespace UIAComWrapperInternal
 {

@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Windows.Automation;
 using System.Windows.Automation.Text;
 using System.Windows;
+using UIAutomationClient = Interop.UIAutomationClient;
 
 namespace UIAComWrapperInternal
 {

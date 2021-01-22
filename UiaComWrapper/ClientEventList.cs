@@ -9,8 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Automation;
-using UIAutomationClient;
-using StructureChangeType = System.Windows.Automation.StructureChangeType;
+using UIAutomationClient = Interop.UIAutomationClient;
+using IUIAutomationElement = Interop.UIAutomationClient.IUIAutomationElement;
 
 namespace UIAComWrapperInternal
 {

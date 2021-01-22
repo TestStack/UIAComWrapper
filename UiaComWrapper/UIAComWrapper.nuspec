@@ -12,11 +12,13 @@
     <description>The UI Automation COM-to-.NET Adapter makes it possible to use the new Windows Automation API 3.0 COM interfaces, with their improved reliability and performance, while still using the same System.Windows.Automation classes as in earlier versions of UI Automation</description>
     <copyright>Copyright Michael Bernstein 2013</copyright>
     <tags>UIA</tags>
+    <dependencies>
+      <dependency id="Interop.UIAutomationClient.Signed" version="10.18362.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="UIAComWrapper.dll" target="lib\net40" />
     <file src="UIAComWrapper.pdb" target="lib\net40" />
-    <file src="Interop.UIAutomationClient.dll" target="lib\net40" />
     <file src="install.ps1" target="tools" />
   </files>
 </package>
